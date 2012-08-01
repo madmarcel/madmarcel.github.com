@@ -17,7 +17,7 @@ small, strike, strong, sub, sup, tt, var,
 b, u, i, center,
 dl, dt, dd, ol, ul, li,
 fieldset, form, label, legend,
-table, caption, tbody, tfoot, thead, tr, th, td,
+caption, tbody, tfoot, thead,
 article, aside, canvas, details, embed,
 figure, figcaption, footer, header, hgroup,
 menu, nav, output, ruby, section, summary,
@@ -28,6 +28,8 @@ time, mark, audio, video {
   font: inherit;
   vertical-align: baseline;
 }
+
+table, tr, th, td { vertical-align: top }; 
 
 /* HTML5 display-role reset for older browsers */
 article, aside, details, figcaption, figure,
@@ -272,7 +274,7 @@ Full-Width Styles
 
 .inner {
   position: relative;
-  max-width: 640px;
+  max-width: 90%;
   padding: 20px 10px;
   margin: 0 auto;
 }
@@ -283,6 +285,17 @@ Full-Width Styles
   top:0;
   right: 10px;
   z-index: 10;
+  padding: 10px 50px 10px 10px;
+  color: #fff;
+  background: url('../images/blacktocat.png') #0090ff no-repeat 95% 50%;
+  font-weight: 700;
+  box-shadow: 0 0 10px rgba(0,0,0,.5);
+  border-bottom-left-radius: 2px;
+  border-bottom-right-radius: 2px;
+}
+
+#forkme_banner2 {
+  display: block;
   padding: 10px 50px 10px 10px;
   color: #fff;
   background: url('../images/blacktocat.png') #0090ff no-repeat 95% 50%;
