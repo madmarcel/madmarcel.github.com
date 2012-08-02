@@ -443,15 +443,16 @@ Small Device Styles
 
 }
 
-
-#sidebar #social {
-    margin: 10px;
-}    
-div .plusone, .twitter, .fb-like {
-    font-size: 1px;
-    display: inline-block;
+.social{
+	margin-top: 5px;
+	margin-right: 5px;
+	float:right;
 }
-div .fb_reset {
-    display: inline;
-} 
 
+.fb, .twit, .share, .gplus{
+	float:left;
+	width:70px;
+	height:70px;
+	overflow:hidden;
+	
+}
