@@ -443,16 +443,13 @@ Small Device Styles
 
 }
 
-.social{
+.social {
 	margin-top: 5px;
 	margin-right: 5px;
 	float:right;
 }
 
-.fb, .twit, .share, .gplus{
-	float:left;
-	width:70px;
-	height:70px;
-	overflow:hidden;
-	
+.myfb, .twitter, .mygplus {
+	height:80px;
+	overflow:hidden;	
 }
