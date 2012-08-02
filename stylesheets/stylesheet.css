@@ -442,3 +442,16 @@ Small Device Styles
   }
 
 }
+
+
+#sidebar #social {
+    margin: 10px;
+}    
+div .plusone, .twitter, .fb-like {
+    font-size: 1px;
+    display: inline-block;
+}
+div .fb_reset {
+    display: inline;
+} 
+
