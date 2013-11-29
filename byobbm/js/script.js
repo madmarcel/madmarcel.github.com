@@ -251,12 +251,12 @@ $( document ).ready(function() {
 });
 
 var setupSocialLinks = function() {
-    var myUrl = 'http://www.madmarcel.github.io/byobbm';
-    var myUrl2 = 'www.madmarcel.github.io/byobbm';
+    var myUrl = 'http://madmarcel.github.io/byobbm';
+    var myUrl2 = 'madmarcel.github.io/byobbm';
     var desc = 'BYO Blue Ball Machine';
-    var thumbnail = 'http://www.madmarcel.github.io/byobbm/images/media/thumbnail.png';
-    var thumbnail2 = 'http://www.madmarcel.github.io/byobbm/images/media/thumbnail-200x200.png';
-    var screenshot = 'http://www.madmarcel.github.io/byobbm/images/media/screenshot.png';
+    var thumbnail = 'http://madmarcel.github.io/byobbm/images/media/thumbnail.png';
+    var thumbnail2 = 'http://madmarcel.github.io/byobbm/images/media/thumbnail-200x200.png';
+    var screenshot = 'http://madmarcel.github.io/byobbm/images/media/screenshot.png';
             
     var links = [
                     { "url" : "http://www.facebook.com/sharer.php?s=100&p[url]=" + encodeURI(myUrl) + "p[images][0]=" + encodeURI(thumbnail2) + "&p[title]=" + encodeURI(desc), "title": "Facebook", "image": "facebook.png", "popup": true },
