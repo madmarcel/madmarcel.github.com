@@ -1,0 +1,329 @@
+{
+	"nodetype" : "a",
+        "images" : [                        
+                        "layer2.png",
+                        "layer3.png",
+                        "pusher.png",
+                        "pusher2.png",
+                        "pusher3.png"
+                    ],
+        "sprites" : [
+                        { "image" : 1, "z" : 3 },
+                        { "image" : 0, "z" : 1, "opacity" : 0.5 }                       
+                    ],
+        
+        "triggers" : [
+                        {
+                                "track" : 2,
+                                "node" : 1,                                
+                                "actions" : [
+                                                {       "target" : "animation",
+                                                        "index" : 0,
+                                                        "method" : "start",
+                                                        "values" : []
+                                                }
+                                           ]
+                        },
+                        {                                
+                                "actions" : [
+                                                {       "target" : "animation",
+                                                        "index" : 0,
+                                                        "method" : "reset",
+                                                        "values" : []
+                                                },
+                                                {       "target" : "node",
+                                                        "track" : 2,
+                                                        "index" : 1,
+                                                        "method" : "releaseBall",
+                                                        "values" : []
+                                                }
+                                           ]
+                        },
+                        {
+                                "track" : 2,
+                                "node" : 2,                                
+                                "actions" : [
+                                                {       "target" : "animation",
+                                                        "index" : 0,
+                                                        "method" : "start",
+                                                        "values" : []
+                                                }
+                                           ]
+                        },
+                        {
+                                "track" : 2,
+                                "node" : 19,                                
+                                "actions" : [
+                                                {       "target" : "animation",
+                                                        "index" : 1,
+                                                        "method" : "start",
+                                                        "values" : []
+                                                }
+                                           ]
+                        },
+                        {                                
+                                "actions" : [
+                                                {       "target" : "animation",
+                                                        "index" : 1,
+                                                        "method" : "reset",
+                                                        "values" : []
+                                                }
+                                            ]
+                        },
+                        {                                
+                                "actions" : [
+                                                {       "target" : "animation",
+                                                        "index" : 2,
+                                                        "method" : "reset",
+                                                        "values" : []
+                                                }
+                                            ]
+                        },
+                        {
+                                "track" : 2,
+                                "node" : 25,                                
+                                "actions" : [
+                                                {       "target" : "animation",
+                                                        "index" : 2,
+                                                        "method" : "start",
+                                                        "values" : []
+                                                }
+                                           ]
+                        }
+                     ],
+        "animations" : [
+                            {
+                                "z": 2,                                        
+                                "visible": true,
+                                "loop": false,
+                                "paused": true,
+                                "x" : 85,
+                                "y" : 72,
+                                "frames": [
+                                                {
+                                                        "image" : 2,
+                                                        "duration" : 1,
+                                                        "x" : 0,
+                                                        "y" : 0
+                                                },
+                                                {
+                                                        "image" : 2,
+                                                        "duration" : 1,
+                                                        "x" : 0,
+                                                        "y" : -2
+                                                },
+                                                {
+                                                        "image" : 2,
+                                                        "duration" : 1,
+                                                        "x" : 0,
+                                                        "y" : -4
+                                                },
+                                                {
+                                                        "image" : 2,
+                                                        "duration" : 1,
+                                                        "x" : 0,
+                                                        "y" : -6
+                                                },
+                                                {
+                                                        "image" : 2,
+                                                        "duration" : 4,
+                                                        "x" : 0,
+                                                        "y" : -8
+                                                },
+                                                {
+                                                        "image" : 2,
+                                                        "duration" : 1,
+                                                        "x" : 0,
+                                                        "y" : -6
+                                                },
+                                                {
+                                                        "image" : 2,
+                                                        "duration" : 1,
+                                                        "x" : 0,
+                                                        "y" : -4
+                                                },
+                                                {
+                                                        "image" : 2,
+                                                        "duration" : 1,
+                                                        "x" : 0,
+                                                        "y" : -2
+                                                },                                                
+                                                {
+                                                        "image" : 2,
+                                                        "duration" : 1,
+                                                        "x" : 0,
+                                                        "y" : 0
+                                                }
+                                                
+                                          ],
+                                "startTriggers" : [],
+                                "endTriggers" : [ 1 ]
+                            },
+                            {
+                                "z": 2,                                        
+                                "visible": true,
+                                "loop": false,
+                                "paused": true,
+                                "x" : 32,
+                                "y" : 77,
+                                "frames": [
+                                                {
+                                                        "image" : 3,
+                                                        "duration" : 10,
+                                                        "x" : 0,
+                                                        "y" : 0
+                                                },
+                                                {
+                                                        "image" : 3,
+                                                        "duration" : 1,
+                                                        "x" : 0,
+                                                        "y" : -2
+                                                },
+                                                {
+                                                        "image" : 3,
+                                                        "duration" : 1,
+                                                        "x" : 0,
+                                                        "y" : -4
+                                                },
+                                                {
+                                                        "image" : 3,
+                                                        "duration" : 1,
+                                                        "x" : 0,
+                                                        "y" : -6
+                                                },
+                                                {
+                                                        "image" : 3,
+                                                        "duration" : 1,
+                                                        "x" : 0,
+                                                        "y" : -8
+                                                },                                                
+                                                {
+                                                        "image" : 3,
+                                                        "duration" : 1,
+                                                        "x" : 0,
+                                                        "y" : 0
+                                                }
+                                                
+                                          ],
+                                "startTriggers" : [],
+                                "endTriggers" : [ 4 ]
+                            },
+                            {
+                                "z": 2,                                        
+                                "visible": true,
+                                "loop": false,
+                                "paused": true,
+                                "x" : 7,
+                                "y" : 48,
+                                "frames": [
+                                                {
+                                                        "image" : 4,
+                                                        "duration" : 1,
+                                                        "x" : 0,
+                                                        "y" : 0
+                                                },
+                                                {
+                                                        "image" : 4,
+                                                        "duration" : 1,
+                                                        "x" : 0,
+                                                        "y" : 2
+                                                },
+                                                {
+                                                        "image" : 4,
+                                                        "duration" : 1,
+                                                        "x" : 0,
+                                                        "y" : 4
+                                                },
+                                                {
+                                                        "image" : 4,
+                                                        "duration" : 1,
+                                                        "x" : 0,
+                                                        "y" : 6
+                                                },
+                                                {
+                                                        "image" : 4,
+                                                        "duration" : 1,
+                                                        "x" : 0,
+                                                        "y" : 8
+                                                },                                                
+                                                {
+                                                        "image" : 4,
+                                                        "duration" : 1,
+                                                        "x" : 0,
+                                                        "y" : 0
+                                                }
+                                                
+                                          ],
+                                "startTriggers" : [],
+                                "endTriggers" : [ 5 ]
+                            }                            
+                        ],
+        "tracks" : [
+                        {   "nodes": [
+                                        { "x": 46, "y": 0 },
+                                        { "x": 46, "y": 10 },
+                                        { "x": 32, "y": 10 },
+                                        { "x": 32, "y": 19 },
+                                        { "x": 72, "y": 19 },
+                                        { "x": 74, "y": 24 },
+                                        { "x": 74, "y": 39 },
+                                        { "x": 70, "y": 42 },
+                                        { "x": 45, "y": 42 },
+                                        { "x": 42, "y": 46 },
+                                        { "x": 42, "y": 65 },
+                                        { "x": 49, "y": 65 },
+                                        { "x": 56, "y": 71 },
+                                        { "x": 80, "y": 71 },
+                                        { "x": 80, "y": 85 },
+                                        { "x": 71, "y": 86 },
+                                        { "x": 64, "y": 87 },
+                                        { "x": 54, "y": 88 },
+                                        { "x": 46, "y": 89 },
+                                        { "x": 46, "y": 99 }
+                                    ],
+                            "z": 0,
+                            "id" : 0
+                            },
+                        {   "nodes": [
+                                        { "x": 0, "y": 19 },
+                                        { "x": 99, "y": 19 }
+                                    ],
+                            "z" : 0,
+                            "id" : 1
+                        },
+                        {   "nodes": [
+                                        { "x": 99, "y": 63 },
+                                        { "x": 94, "y": 65, "blocking" : true },
+                                        { "x": 88, "y": 70 },
+                                        { "x": 88, "y": 57 },
+                                        { "x": 88, "y": 50 },
+                                        { "x": 88, "y": 43 },
+                                        { "x": 88, "y": 36 },
+                                        { "x": 88, "y": 29 },
+                                        { "x": 88, "y": 25 },
+                                        { "x": 83, "y": 24 },
+                                        { "x": 74, "y": 27 },
+                                        { "x": 74, "y": 35 },
+                                        { "x": 73, "y": 41 },
+                                        { "x": 69, "y": 42 },
+                                        { "x": 60, "y": 42 },
+                                        { "x": 45, "y": 42 },
+                                        { "x": 42, "y": 46 },
+                                        { "x": 42, "y": 64 },
+                                        { "x": 34, "y": 66 },
+                                        { "x": 32, "y": 76, "delayTime": 100 },
+                                        { "x": 32, "y": 37 },
+                                        { "x": 28, "y": 36 },
+                                        { "x": 24, "y": 37 },
+                                        { "x": 22, "y": 50 },
+                                        { "x": 19, "y": 51 },
+                                        { "x": 12, "y": 51, "delayTime": 75 },
+                                        { "x": 9, "y": 51 },
+                                        { "x": 1, "y": 59 },
+                                        { "x": 0, "y": 61 }
+                                    ],
+                            "z": 0,
+                            "id" : 2
+                        }
+                    ]
+}

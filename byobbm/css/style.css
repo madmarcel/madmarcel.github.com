@@ -1,0 +1,411 @@
+body {
+    background: black;
+    margin: 0px;
+    padding: 0px;
+    /* disable text selection for the entire page */
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    color: white;
+    
+    /* use a nice font */
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+.container {
+    margin: 0px auto;
+    text-align: center;        
+}
+
+/* ----------------------
+        canvas
+   ---------------------- */
+#bbm {
+    margin-top: 15px;
+    background: white;    
+}
+
+/* ----------------------
+        help message
+   ---------------------- */
+#helpMessage {    
+    margin: 0px auto;
+    width: 700px;    
+    background: rgba(255,255,255, 0.25);
+    color: white;
+    border-radius: 5px;
+    height: 30px;
+    line-height: 1.8;
+    display: inline-block;
+}
+
+#helpMessage span {
+    margin-right: 20px;
+    position: relative;
+    top: 1px;
+    left: 10px;
+    float: left;
+    border-radius: 50%;
+}
+
+.blue {
+    background: #f0ad4e;
+}
+
+.orange {
+    background: #f0ad4e;
+}
+
+.red {
+    background: #d2322d;
+}
+
+/* links */
+
+.wrapper {
+    margin: 0 auto;
+    margin-top: 7px;
+    width: 944px;    
+}
+
+.links {
+    clear: both;
+    float: right;
+}
+
+.links a {
+    color: yellow;
+    text-decoration: none;
+    font-size: 10px;
+    margin-left: 15px;
+    /* margin-right: 15px; */
+}
+
+.links a:hover {
+    font-size: 11px;
+    text-decoration: underline;
+    color: white;
+}
+
+/* ----------------------
+         buttons
+   ---------------------- */
+
+div.buttonWrapper {
+   width: 944px;
+   height: 40px;
+   margin: 0 auto;
+   clear: both;
+}
+
+#buttons {
+    /* width: 944px;
+    margin: 0 auto; */
+    text-align: left;
+}
+
+#buttons a {    
+    display: inline-block;        
+    /* position: relative; */
+    /* height: 21px; */
+    text-align: center;
+    padding-left: 15px;
+    padding-right: 15px;
+    margin-top: 5px;
+    vertical-align: top;
+}
+
+.button {			
+	border-radius:5px;	
+	text-indent:0;	
+	display:inline-block;
+	color:#ffffff;
+	/* font-family:Arial; */
+	font-size:15px;
+	font-weight:normal;
+	font-style:normal;
+	height:28px;
+	line-height:27px;
+	text-decoration:none;
+}
+
+.button:active {
+	position:relative;
+	top:1px;
+}
+
+.blueb {
+    background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #3d94f6), color-stop(1, #1e62d0) );
+    background:-moz-linear-gradient( center top, #3d94f6 5%, #1e62d0 100% );
+    filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#3d94f6', endColorstr='#1e62d0');
+    background-color:#3d94f6;
+    border:1px solid #337fed;        
+}
+
+.blueb:hover {
+    background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #1e62d0), color-stop(1, #3d94f6) );
+    background:-moz-linear-gradient( center top, #1e62d0 5%, #3d94f6 100% );
+    filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#1e62d0', endColorstr='#3d94f6');
+    background-color:#1e62d0;
+}
+
+.redb {
+    background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #fe1a00), color-stop(1, #ce0100) );
+    background:-moz-linear-gradient( center top, #fe1a00 5%, #ce0100 100% );
+    filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#fe1a00', endColorstr='#ce0100');
+    background-color:#fe1a00;
+    border:1px solid #d83526;
+}
+
+.redb:hover {
+    background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #ce0100), color-stop(1, #fe1a00) );
+    background:-moz-linear-gradient( center top, #ce0100 5%, #fe1a00 100% );
+    filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#ce0100', endColorstr='#fe1a00');
+    background-color:#ce0100;
+}
+
+.rightGroup {
+    float: right;
+    margin-right: 244px;
+}
+
+.greenb {
+    background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #9dce2c), color-stop(1, #8cb82b) );
+    background:-moz-linear-gradient( center top, #9dce2c 5%, #8cb82b 100% );
+    filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#9dce2c', endColorstr='#8cb82b');
+    background-color:#9dce2c;
+}
+
+.greenb:hover {
+    background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #8cb82b), color-stop(1, #9dce2c) );
+    background:-moz-linear-gradient( center top, #8cb82b 5%, #9dce2c 100% );
+    filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#8cb82b', endColorstr='#9dce2c');
+    background-color:#8cb82b;    
+}
+
+.help {
+    margin-left: 50px;
+    height: 30px;
+    font-weight: bold;
+    line-height: 30px;
+}
+
+/* --------------------------
+ *  winner info
+ * -------------------------- */
+.winner {
+    font-size: 10px;
+    display: inline-block;
+    width: 180px;
+    height: 30px;
+    text-align: center;
+    vertical-align: middle;
+    margin-top: -5px;
+}
+
+/* --------------------------
+    Ball selection dropup 
+   -------------------------- */
+
+span.ballSelection {
+    display: inline-block;
+    position: relative;
+    top: -16px;
+    height: 28px;    
+}
+
+.ballSelection ul {
+    padding-left: 0px;
+    width: 40px;
+    list-style: none;    
+    cursor: pointer;
+    position: absolute;
+    bottom: -7px;    
+}
+
+.ballSelection i {
+    color: gray;
+    padding-left: 4px;
+    padding-right: 3px;
+    position: relative;
+    top: 5px;
+}
+
+.ballSelection ul li {
+    padding: 0px;
+    display: none;
+    height: 30px;
+    background: white;
+    padding-left: 15px;
+    /* box-shadow: 1px 1px 1px black; */
+    border-left: 1px solid gray;
+    border-right: 1px solid gray;
+    width: 23px;
+}
+
+.ballSelection ul li#head {
+    padding: 0px;
+    display: block;
+    height: 31px;
+    background: white;    
+    border-radius: 5px;
+    text-align: right;
+    width: 40px;
+    position: absolute;
+    bottom: -32px;
+    border: none;
+}
+
+.ballSelection ul li img {
+    position: relative;
+    top: 3px;
+}
+
+.ballSelection ul li#head img {
+    padding-right: 3px;
+}
+
+.ballSelection ul li:hover {
+    background: grey;
+    cursor: pointer;
+}
+
+.ballSelection ul li:nth-child(2) { 
+    border-top: 1px solid gray;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+}
+
+/* ----------------------
+    vertical carousel
+   ---------------------- */
+
+#vertical_carousel {
+    display: inline-block;
+    background: none;
+    height: 600px;
+    width: 230px;
+    margin-left: 10px;
+}
+
+#slides {
+    overflow: hidden;
+    width: 230px;
+    height: 600px;    
+    background: none;
+}
+
+#slides ul {
+    list-style: none;
+    position: relative;
+    left: 0px;
+    top: -15px;
+    padding: 0px;
+    height: 488px;
+}
+
+#slides li {
+    float: left;
+    position: relative;
+    left: 10px;
+    border: solid 1px gray;
+    margin-bottom: 2px;
+    height: 100px;
+}
+
+.slide div {
+    display: none;
+}
+
+.bg {
+    position: relative;
+    background: white;
+    top: -570px;
+    left: 0px;
+    height: 540px;
+    z-index: -2;
+}
+
+#upButton {
+    position: relative;
+    background: white;
+    height: 40px;
+    width: 230px;
+    z-index: 1;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+}
+
+#downButton {
+    position: relative;
+    background: white;
+    height: 40px;
+    width: 230px;
+    z-index: 1;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+#upButton:hover {
+    background: grey;
+}
+
+#downButton:hover {
+    background: grey;
+}
+
+.arrowUp {
+        position: relative;
+        top: 10px;
+        margin-left: 95px;
+	width: 0; 
+	height: 0; 
+	border-left: 20px solid transparent;
+	border-right: 20px solid transparent;	
+	border-bottom: 20px solid #000;
+}
+
+.arrowDown {
+        position: relative;
+        top: 10px;
+        margin-left: 95px;        
+	width: 0; 
+	height: 0; 
+	border-left: 20px solid transparent;
+	border-right: 20px solid transparent;	
+	border-top: 20px solid #000;
+}
+
+
+li.slide img:hover {
+    border: 1px solid white;
+}
+
+#slides li.selectedWidget {
+    border: 1px solid red;
+}
+
+#slides li.altslide {
+    left: 15px;
+}
+
+/* Social sharing buttons */
+.social_sharing {
+    float: right;
+    display: inline-block;
+    position: relative;
+    top: -20px;
+    right: -5px;    
+}
+.social_sharing a {
+    text-decoration: none;
+    white-space: nowrap;
+    padding-right: 5px;
+}
+
+.social_sharing img:hover {
+	position:relative;
+	top:1px;
+}

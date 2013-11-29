@@ -1,0 +1,113 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <title>BYO BBM - Contraption Editor - by Marcel van de Steeg</title>     
+            
+        <link rel="shortcut icon" href="images/favicon.ico"></link>
+        <link rel="icon" href="images/favicon.gif" type="image/gif" />
+        
+        <link rel="stylesheet" href="css/editor.css"></link>
+        
+        <!-- font awesome icons -->
+        <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+        
+        <!-- jQuery -->
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+        
+        <!-- byo bbm code -->
+        <script src="js/config.js"></script>
+        <script src="js/ball.js"></script>
+        <script src="js/sprite.js"></script>
+        <script src="js/animation.js"></script>
+        <script src="js/counter.js"></script>
+        <script src="js/trigger.js"></script>
+        <script src="js/scene.js"></script>
+        <script src="js/widget.js"></script>                
+        
+        <script src="js/editor.js"></script>                
+    </head>
+    <body>
+        <div class="container">
+            <p class="warning">Note: This editor is NOT userfriendly. No instructions provided. Many parts will not work as expected.<br/>It's sloppy, slap-dash and thrown together. There is no undo or save option.</p>
+            <div class="container dirtyFix">
+                <div class='leftColumn'>
+                    <ul>                    
+                        <li>Images</li>
+                        <li><table>
+                                <tr><td>0</td><td>image 1</td><td><input type="checkbox"/></td></tr>
+                                <tr><td>1</td><td>image 2</td><td><input type="checkbox"/></td></tr>
+                                <tr><td>2</td><td>image 3</td><td><input type="checkbox"/></td></tr>
+                            </table>
+                        </li>                    
+                    </ul>
+                    <ul>                    
+                        <li>Sprites</li>
+                        <li><table>
+                                <tr><td>0</td><td>Sprite 1</td><td><input type="checkbox"/></td></tr>
+                                <tr><td>1</td><td>Sprite 2</td><td><input type="checkbox"/></td></tr>
+                                <tr><td>2</td><td>Sprite 3</td><td><input type="checkbox"/></td></tr>
+                            </table>
+                        </li>                    
+                    </ul>
+                    <ul>
+                        <li>Tracks</li>
+                        <li><table>
+                                  <tr><td>0</td><td>Track 1</td><td><input type="checkbox"/></td></tr>
+                                  <tr><td>1</td><td>Track 2</td><td><input type="checkbox"/></td></tr>
+                                  <tr><td>2</td><td>Track 3</td><td><input type="checkbox"/></td></tr>  
+                            </table>
+                        </li>                    
+                    </ul>
+                    <ul>
+                        <li>Animations</li>
+                        <li><table>
+                                <tr><td>0</td><td>Animation 1</td><td><input type="checkbox"/></td></tr>
+                            </table>
+                        </li>                    
+                    </ul>
+                    <ul>
+                        <li>Counters</li>
+                        <li><table>
+                                <tr><td>0</td><td>Counter 1</td><td><input type="checkbox"/></td></tr>
+                            </table>
+                        </li>                    
+                    </ul>
+                    <ul>
+                        <li>Triggers</li>
+                        <li><table>
+                                <tr><td>0</td><td>Trigger 1</td><td><input type="checkbox"/></td></tr>
+                            </table>
+                        </li>                    
+                    </ul>           
+                </div>
+                <div class='propertiesColumn'>
+                    <h4>Properties</h4>
+                </div>
+                <canvas id="bbmeditor" height="400" width="400">Your browser doesn't support HTML5.</canvas>
+                <div class='propertiesColumn'>
+                    <h4>Items</h4>
+                </div>
+            </div>
+        </div>
+        <div class="container clear">            
+            <div class="buttons">                
+                <a href="#" class='testButton button'>Test</a>
+                <a href="#" class='exportButton button'>Export</a>
+                <a href="#" class='clearButton button'>Clear All</a>
+            </div>            
+        </div>
+        <div class="container">
+            <div class="links">
+                <a href="http://madmarcel.github.io" target="_blank">home</a>
+                <a href="index.html" target="_blank">byo bbm</a>
+                <a href="faq.html" target="_blank">faq</a>
+                <a href="http://githubcom/madmarcel" target="_blank">source code</a>
+                <a href="license.html" target="_blank">license</a>
+                <a href="credits.html" target="_blank">credits</a>
+                <a href="http://opengameart.org/users/madmarcel" target="_blank">graphics</a>
+                <a href="http://github.com/github/game-off-2013" target="_blank">GGO2013</a>
+            </div>
+        </div>
+    </body>
+</html>

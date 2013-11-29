@@ -1,0 +1,32 @@
+body {
+    background: black;
+    margin: 0px;
+    padding: 0px;
+    /* disable text selection for the entire page */
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    color: white;
+    
+    /* use a nice font */
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 14px;
+}
+
+.container {
+    margin: 0px auto;
+    text-align: center;        
+}
+
+a {
+    color: yellow;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+    color: orange;
+}

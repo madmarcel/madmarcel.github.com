@@ -1,0 +1,154 @@
+{
+	"nodetype" : "a",
+        "images" : [
+                        "background.png",
+                        "pipe_and_platform.png",
+                        "coin.png"    
+                    ],
+        "sprites" : [                
+                        { "image" : 0, "z" : 0 },
+                        { "image" : 1, "z" : 3 },
+                        { "image" : 2, "z" : 1, "x" : 43, "y" : 37 },
+                        { "image" : 2, "z" : 1, "x" : 43, "y" : 49 }
+                    ],
+        
+        "triggers" : [
+                        {
+                                "track" : 0,
+                                "node" : 1,
+                                "actions" : [
+                                                {       "target" : "sprite",
+                                                        "index" : 2,
+                                                        "method" : "setProp",
+                                                        "values" : [ "visible", false ]
+                                                },
+                                                {       "target" : "counter",
+                                                        "index" : 0,
+                                                        "method" : "start",
+                                                        "values" : []
+                                                },
+                                                {       "target" : "trigger",
+                                                        "index" : 0,
+                                                        "method" : "setProp",
+                                                        "values" : [ "enabled", false ]
+                                                }                                                
+                                           ]
+                        },
+                        {
+                                "track" : 0,
+                                "node" : 2,                                
+                                "actions" : [
+                                                {       "target" : "sprite",
+                                                        "index" : 3,
+                                                        "method" : "setProp",
+                                                        "values" : [ "visible", false ]
+                                                },
+                                                {       "target" : "counter",
+                                                        "index" : 1,
+                                                        "method" : "start",
+                                                        "values" : []
+                                                },
+                                                {       "target" : "trigger",
+                                                        "index" : 1,
+                                                        "method" : "setProp",
+                                                        "values" : [ "enabled", false ]
+                                                }
+                                           ]
+                        },
+                        {
+                                "actions" : [
+                                                {       "target" : "sprite",
+                                                        "index" : 2,
+                                                        "method" : "setProp",
+                                                        "values" : [ "visible", true ]
+                                                },
+                                                {       "target" : "counter",
+                                                        "index" : 0,
+                                                        "method" : "reset",
+                                                        "values" : []
+                                                },
+                                                {       "target" : "trigger",
+                                                        "index" : 0,
+                                                        "method" : "setProp",
+                                                        "values" : [ "enabled", true ]
+                                                }
+                                           ]
+                        },
+                        {
+                                "actions" : [
+                                                {       "target" : "sprite",
+                                                        "index" : 3,
+                                                        "method" : "setProp",
+                                                        "values" : [ "visible", true ]
+                                                },
+                                                {       "target" : "counter",
+                                                        "index" : 1,
+                                                        "method" : "reset",
+                                                        "values" : []
+                                                },
+                                                {       "target" : "trigger",
+                                                        "index" : 1,
+                                                        "method" : "setProp",
+                                                        "values" : [ "enabled", true ]
+                                                }
+                                           ]
+                        }
+                     ],
+        "animations" : [
+                
+                        ],
+        "counters" : [
+                        {
+                                "maxValue" : 180,
+                                "loop" : false,
+                                "endTriggers" : [ 2 ]
+                        },
+                        {
+                                "maxValue" : 180,
+                                "loop" : false,
+                                "endTriggers" : [ 3 ]
+                        }
+                ],
+        "tracks" : [
+                        { "nodes": [
+                            { "x": 46, "y": 0 },
+                            { "x": 46, "y": 36 },
+                            { "x": 46, "y": 48 },
+                            { "x": 46, "y": 99 }
+                        ],
+                        "z" : 2,
+                        "id" : 0
+                        },
+                        { "nodes":  [
+                            { "x": 0, "y": 19 },
+                            { "x": 40, "y": 19 },
+                            { "x": 43, "y": 17 },
+                            { "x": 46, "y": 16 },
+                            { "x": 49, "y": 17 },
+                            { "x": 52, "y": 19 },
+                            { "x": 99, "y": 19 }
+                        ],
+                        "z": 2,
+                        "id" : 1
+                        },
+                        { "nodes": [
+                            { "x": 99, "y": 63 },
+                            { "x": 85, "y": 75 },
+                            { "x": 74, "y": 79 },
+                            { "x": 53, "y": 79 },
+                            { "x": 42, "y": 76 },
+                            { "x": 36, "y": 70 },
+                            { "x": 32, "y": 63 },
+                            { "x": 26, "y": 58 },
+                            { "x": 20, "y": 56 },
+                            { "x": 16, "y": 55 },
+                            { "x": 13, "y": 56 },
+                            { "x": 7, "y": 57 },
+                            { "x": 0, "y": 61 }
+                        ],
+                        "z": 2,
+                        "id" : 2
+                        }
+                ]
+}
+

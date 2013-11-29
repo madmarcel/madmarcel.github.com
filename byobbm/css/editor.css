@@ -1,0 +1,151 @@
+body {
+    background: black;
+    margin: 0px;
+    padding: 0px;
+    /* disable text selection for the entire page */
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    color: white;
+    
+    /* use a nice font */
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+.container {
+    margin: 0px auto;
+    text-align: center;        
+}
+
+.clear {
+    clear: both;
+}
+
+/* only looks good on my screen */
+.dirtyFix {
+    position: relative;
+    left: 100px;
+}
+
+/* ----------------------
+        canvas
+   ---------------------- */
+#bbmeditor {
+    margin-top: 15px;
+    background: white;
+    float: left;
+    margin-left: 30px;    
+}
+
+.warning {
+    color: white;
+    background: #d9534f;
+    border-radius: 4px;
+    width: 800px;
+    padding: 4px;
+    margin: 0 auto;
+    margin-top: 5px;    
+}
+
+/* links */
+
+.links {
+    margin-top: 7px;
+}
+
+.links a {
+    color: yellow;
+    text-decoration: none;
+    font-size: 10px;
+    margin-left: 15px;
+    margin-right: 15px;
+}
+
+.links a:hover {
+    font-size: 11px;
+    text-decoration: underline;
+    color: white;
+}
+
+/* buttons */
+.buttons {
+    padding-top: 15px;
+}
+
+.button {		
+	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #3d94f6), color-stop(1, #1e62d0) );
+	background:-moz-linear-gradient( center top, #3d94f6 5%, #1e62d0 100% );
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#3d94f6', endColorstr='#1e62d0');
+	background-color:#3d94f6;
+	border-radius:5px;	
+	text-indent:0;
+	border:1px solid #337fed;
+	display:inline-block;
+	color:#ffffff;
+	font-family:Arial;
+	font-size:15px;
+	font-weight:normal;
+	font-style:normal;
+	height:28px;
+	line-height:28px;
+	width: 75px;
+	text-decoration:none;
+	text-align:center;
+}
+
+.button:hover {
+	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #1e62d0), color-stop(1, #3d94f6) );
+	background:-moz-linear-gradient( center top, #1e62d0 5%, #3d94f6 100% );
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#1e62d0', endColorstr='#3d94f6');
+	background-color:#1e62d0;
+}
+
+.button:active {
+	position:relative;
+	top:1px;
+}
+
+/* Left column */
+.leftColumn {
+    margin-top: 15px;
+    width: 200px;
+    float: left;
+    background: white;
+    color: black;
+    font-size: 10px;
+}
+
+.leftColumn ul {
+    list-style: none;
+}
+
+.leftColumn ul li:first-child {
+    text-align: left;
+    padding-bottom: 4px;
+    font-weight: bold;    
+}
+
+.leftColumn ul li:first-child:hover {
+    cursor: pointer;
+}
+
+.leftColumn tr:hover {
+    background: blue;
+    color: white;
+    cursor: pointer;
+}
+
+/* properties column */
+.propertiesColumn {
+    margin-top: 15px;
+    width: 300px;    
+    background: white;
+    color: black;
+    font-size: 10px;
+    float: left;
+    margin-left: 10px;
+}
+

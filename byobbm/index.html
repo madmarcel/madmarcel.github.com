@@ -1,0 +1,90 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <title>BYO BBM - Build Your Own Blue Ball Machine</title>
+        <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+        <meta name="apple-mobile-web-app-capable" content="yes" /> 
+        
+        <!-- google plus OpenGraph tags -->        
+        <meta property="og:title" content="BYO BBM"/>
+        <meta property="og:image" content="http://www.madmarcel.github.io/byobbm/images/media/thumbnail.png"/>
+        <meta property="og:description" content="Build Your Own Blue Ball Machine"/>
+                    
+        <link rel="shortcut icon" href="images/favicon.ico"></link>
+        <link rel="icon" href="images/favicon.gif" type="image/gif" />
+        
+        <link rel="stylesheet" href="css/style.css"></link>
+        
+        <!-- font awesome icons -->
+        <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+        
+        <!-- jQuery -->
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+        
+        <!-- byo bbm code -->
+        <script src="js/filters.js"></script>
+        <script src="js/config.js"></script>
+        <script src="js/ball.js"></script>
+        <script src="js/sprite.js"></script>
+        <script src="js/animation.js"></script>
+        <script src="js/counter.js"></script>
+        <script src="js/node.js"></script>
+        <script src="js/trigger.js"></script>
+        <script src="js/scene.js"></script>
+        <script src="js/widget.js"></script>        
+        <script src="js/script.js"></script>
+        
+        <!-- vertical selection carousel -->
+        <script src="js/carousel.js"></script>
+    </head>
+    <body>        
+        <div class="container">
+            <canvas id="bbm" height="600" width="700">Your browser doesn't support HTML5.</canvas>
+            <div id="vertical_carousel">
+                <div id="slides">
+                    <div id="upButton"><div class="arrowUp"></div></div>                    
+                    <ul id="addSlidesHere">
+                    </ul>                    
+                    <div id="downButton"><div class="arrowDown"></div></div>
+                    <div class="bg"></div>
+                </div>                
+            </div>
+        </div>
+        <div class="container">
+            <div class="buttonWrapper">
+                <div id="buttons">
+                    <a href="#" class='button blueb addBall'>Add Ball</a>
+                    <span class="ballSelection">
+                        <ul>
+                            <li id='head' data-id='0'><span id='selectedBall'><img src='images/blueball.png'/></span><i class='fa fa-long-arrow-up'></i></li>
+                        </ul>
+                    </span>
+                    <a href="#" class='button greenb help'>?</a>
+                    <div class="winner"><span id="winMsg"></span><br/>Using <span id="wUsed">0</span> of <span id="wTotal">0</span> widgets.</div>
+                    <div class='rightGroup'>
+                        <a href="#" class='button redb clearBalls'>Clear Balls</a>
+                        <a href="#" class='button redb clearWidgets'>Clear Widgets</a>
+                        <a href="#" class='button redb resetAll'>Clear All</a>
+                    </div>                
+                </div>
+                <div class="social_sharing">
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="wrapper">
+                <div class="links">
+                    <a href="http://madmarcel.github.io" target="_blank">home</a>
+                    <!-- <a href="editor.html" target="_blank">contraption editor</a> -->
+                    <a href="faq.html" target="_blank">faq</a>
+                    <a href="http://github.com/madmarcel/BYOBBM" target="_blank">source code</a>
+                    <a href="license.html" target="_blank">license</a>
+                    <a href="credits.html" target="_blank">credits</a>
+                    <a href="http://opengameart.org/users/madmarcel" target="_blank">graphics</a>
+                    <a href="http://github.com/github/game-off-2013" target="_blank">GGO2013</a>                
+                </div>
+            </div>                        
+        </div>
+    </body>
+</html>
