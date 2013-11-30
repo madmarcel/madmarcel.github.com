@@ -25,7 +25,7 @@ var selectionRect = {
                             if( this.visible ) {
                                                                 
                                 if( selectedWidget !== null ) {
-                                    var item = previews[selectedWidget-1];
+                                    var item = previews[selectedWidget];
                                     if( item.gs === null ) {
                                         item.gs = Filters.convertToGrayScale( item.orig );
                                     }                                    
@@ -195,6 +195,11 @@ $( document ).ready(function() {
     });
     
     $("a.help").click( function(e) {
+        e.preventDefault();
+        instructions.visible = !instructions.visible;
+    });
+    
+    $("a", ".minihelp").click( function(e) {
         e.preventDefault();
         instructions.visible = !instructions.visible;
     });
@@ -382,8 +387,10 @@ var processClick = function(mx, my) {
         var lx = Math.floor(tx / BLOCKWIDTH);
         var rowCount = Math.floor(canvas.width / BLOCKWIDTH);
         var loc = ly * rowCount + lx;                
-                                    
-        var widget = new Widget("" + selectedWidget );
+        
+        //console.log("Selected widget is " + selectedWidget + " => " + CONTRAPTIONS[selectedWidget]);
+                                            
+        var widget = new Widget("" + CONTRAPTIONS[selectedWidget] );
                     
         // in theory, these are cached, so only have to load them once
         widget.loadConfig();                

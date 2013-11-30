@@ -26,7 +26,8 @@ var Ball = function( x, y, canvas_height, canvas_width, image, parent ) {
     this.target = null;
     this.track = null;    
     this.paused = false;
-    this.performScan = true;        
+    this.performScan = true;
+    this.mask = null;
 }
 
 Ball.prototype.render = function( ctx, offsetX, offsetY, otherImages ) {
@@ -37,6 +38,10 @@ Ball.prototype.render = function( ctx, offsetX, offsetY, otherImages ) {
         }
         else {
             ctx.drawImage(this.image, this.x - 3, this.y - 3);
+        }
+        
+        if( this.mask !== null ) {            
+            ctx.drawImage(otherImages[this.mask.index], this.x - 3 + this.mask.x, this.y - 3 + this.mask.y);
         }
         
         // render the target
@@ -88,6 +93,7 @@ Ball.prototype.update = function(ox,oy) {
             this.unclaimed = true;
             this.performScan = true;
             this.scene = null;
+            this.mask = null;
             return;            
         }
         
@@ -218,6 +224,7 @@ Ball.prototype.findClosestEntryNode = function( scenes, radius ) {
                 this.target = closestNode.target;
                 this.track = closestNode.track;
                 this.scene = closestNode.scene;
+                this.mask = null;
                 this.z = this.track.z;
             }
         }        
@@ -231,6 +238,7 @@ Ball.prototype.findClosestEntryNode = function( scenes, radius ) {
         this.target = null;
         this.track = null;
         this.scene = null;
+        this.mask = null;
         this.z = 0;
     }
     else
@@ -242,12 +250,14 @@ Ball.prototype.findClosestEntryNode = function( scenes, radius ) {
 }
 
 Ball.prototype.setProp = function( propname, value ) {
+    //console.log("Propname: " + propname + " new value: " + value);
     if( this.hasOwnProperty( propname ) ) {
         this[propname] = value;
     }
 }
 
 Ball.prototype.execute = function( method, params ) {
+    //console.log( "method: " + method + " params: " + params);
     this[ method ] && this[ method ].apply( this, params );
 }
 
@@ -260,7 +270,8 @@ Ball.prototype.reset = function() {
     this.prevNodeX = null;
     this.prevNodeY = null;
     this.target = null;
-    this.track = null;        
+    this.track = null;
+    this.mask = null;
     this.performScan = true;
     if( this.x_delta === 0 && this.y_delta === 0 ) {
         this.y_delta = 1;

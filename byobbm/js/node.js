@@ -90,7 +90,8 @@ var BlockingNode = function(parent) {
     this.addBallTriggers = [];
     this.releaseBallTriggers = [];
     this.parent = parent;
-    this.treshold = 0;
+    this.threshold = 0;
+    this.showhead = true;
 }
 
 BlockingNode.prototype.getNodeType = function() {
@@ -131,7 +132,7 @@ BlockingNode.prototype.registerBall = function( ball ) {
         this.lastRelease = new Date().getTime();
     }
     
-    if( this.treshold > 0 && this.FIFO.length >= this.treshold ) {        
+    if( this.threshold > 0 && this.FIFO.length >= this.threshold ) {        
         this.fireTriggers( this.thresholdTriggers );
     }
 }
@@ -141,7 +142,9 @@ BlockingNode.prototype.releaseBall = function() {
    if( this.FIFO.length > 0 ) {
         var b = this.FIFO.pop();
         b.paused = false;
-        b.visible = true;
+        if( this.showhead ) {
+            b.visible = true;
+        }
         this.lastRelease = new Date().getTime();        
    }
    this.updateFIFO();
@@ -157,8 +160,10 @@ BlockingNode.prototype.releaseBall = function() {
 
 // make sure only the head of the FIFO is visible
 BlockingNode.prototype.updateFIFO = function() {
-    if( this.FIFO.length > 0 ) {
-        this.FIFO[0].visible = true;
+    if( this.showhead ) {
+        if( this.FIFO.length > 0 ) {
+            this.FIFO[0].visible = true;
+        }
     }
 }
 
@@ -166,6 +171,16 @@ BlockingNode.prototype.fireTriggers = function(list) {
     for(var i = 0; i < list.length; i++ ) {
         this.parent.executeTrigger( list[i] );
     }    
+}
+
+BlockingNode.prototype.emptyFIFO = function() {
+    var max = this.FIFO.length;
+    var parentNode = this;
+    var f = (function(total, theNode) {
+        for(var i = 0; i < total; i++ ) {
+              theNode.releaseBall();
+        };
+    })(max, parentNode);    
 }
 
 BlockingNode.prototype.releaseAllBalls = function() {

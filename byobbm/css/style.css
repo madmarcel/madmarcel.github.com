@@ -24,13 +24,32 @@ body {
         canvas
    ---------------------- */
 #bbm {
-    margin-top: 15px;
+    margin-top: 5px;
     background: white;    
 }
 
 /* ----------------------
         help message
    ---------------------- */
+.minihelp {        
+    font-size: 9px;
+    margin: 0px auto;
+    width: 944px;
+    display: block;
+    text-align: left;
+    margin-top: 2px;
+}
+
+.minihelp a {
+    color: white;
+    text-decoration: none;
+}
+.minihelp a:hover {
+    color: orange;
+    font-size: 11px;
+}
+
+/*
 #helpMessage {    
     margin: 0px auto;
     width: 700px;    
@@ -62,7 +81,7 @@ body {
 .red {
     background: #d2322d;
 }
-
+*/
 /* links */
 
 .wrapper {

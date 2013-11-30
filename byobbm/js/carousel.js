@@ -5,21 +5,23 @@ var maxCarousel = -15;
 var carouselStep = 104;
 var moving = false;
 
-var carouselItems = {};
+var carouselItems = [];
 
 $( document ).ready(function() {
                         
     // populate carousel using available contraptions
     for(var i = 0; i < CONTRAPTIONS.length; i++ ) {
-           carouselItems[CONTRAPTIONS[i]] =  PREVIEW_FOLDER + CONTRAPTIONS[i] + ".png";                                   
+           carouselItems[i] =  PREVIEW_FOLDER + CONTRAPTIONS[i] + ".png";
     }
-                                                        
+
     var root = $("#addSlidesHere");
     
     var alternate = false;
     var altClass = "";
+    
     // add a slide for each of the contraptions
-    for( var item in carouselItems) {
+    for( var item = 0; item < carouselItems.length; item++ ) {
+         // console.log("item: " + item);
          if( alternate ) {
              altClass = " altslide";           
          }
@@ -31,12 +33,12 @@ $( document ).ready(function() {
         alternate = !alternate;
     }
     
-    if( Object.keys(carouselItems).length < 5 ) {
+    if( carouselItems.length < 5 ) {
         minCarousel = maxCarousel;
     }
     else
     {
-        minCarousel = maxCarousel - (carouselStep * (Object.keys(carouselItems).length - 5 ));
+        minCarousel = maxCarousel - (carouselStep * (carouselItems.length - 5 ));
     }
     
     // add action to down button

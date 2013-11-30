@@ -320,7 +320,7 @@ Widget.prototype.triggerEvent = function( trackid, nodeindex, source ) {
                 theTrigger.node == nodeindex
                ) {
                 
-                this.processActions( theTrigger );                
+                this.processActions( theTrigger, source );                
             }
         }
     }
@@ -344,7 +344,7 @@ Widget.prototype.executeTrigger = function( triggerIndex ) {
     }
 }
 
-Widget.prototype.processActions = function(theTrigger) {
+Widget.prototype.processActions = function(theTrigger, source) {
     if( !theTrigger.enabled ) {
         return;
     }
