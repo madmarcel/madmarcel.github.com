@@ -112,7 +112,8 @@ Widget.prototype.loadConfig = function() {
             // only update specified keys
             for( var key in theConfig.animations[p] ) {                                
                 newAnimation[key] = theConfig.animations[p][key];            
-            }                                                                
+            }
+            newAnimation.init(this.images);
             this.animations.push( newAnimation );
         }
     }
@@ -219,7 +220,7 @@ Widget.prototype.update = function(px,py) {
     // update claimed balls
     for( var i = 0; i < this.balls.length; i++ ) {
         if( !this.balls[i].unclaimed ) {
-            this.balls[i].update(px,py);
+            this.balls[i].update(px, py, false);
         }
     }
     

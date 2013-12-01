@@ -13,6 +13,42 @@ var Animation = function( parent ) {
     this.parent = parent;
     this.startTriggers = [];
     this.endTriggers = [];
+    
+    this.rotate = false;
+    this.angleinc = 0;
+    this.totalangle = 0;
+    this.RAD = Math.PI / 180;
+}
+
+Animation.prototype.init = function(theImageList) {
+    // interpolate the rotation frames
+    if( this.rotate === true && this.angleinc > 0 && this.totalangle > 0 ) {
+        // grab details off the first frame
+        var template = this.frames[0];
+        
+        
+        
+        var i = 1;
+        for(var f = template.angle + this.angleinc; f < (this.totalangle + template.angle); f += this.angleinc ) {
+            // console.log( i + " - angle " + f);
+            this.frames[i] = {
+                            "angle" : f * this.RAD,
+                            "x": template.x,
+                            "y": template.y,
+                            "image": template.image,
+                            "duration": template.duration,
+                            "tx" : template.tx,
+                            "ty" : template.ty
+                        };
+            // console.log(" i + f + angle " + i + ", " + f + ", " + this.frames[i].angle );                        
+                        
+                        
+            i++;
+        }
+        this.frames[0].angle *= this.RAD;
+    }
+    
+    // console.log("Total frames: " + this.frames.length );
 }
 
 Animation.prototype.render = function( ctx, offsetX, offsetY, imageList ) {
@@ -25,7 +61,24 @@ Animation.prototype.render = function( ctx, offsetX, offsetY, imageList ) {
             if( this.opacity < 1.0 ) {
                 ctx.globalAlpha = this.opacity;
             }
-            ctx.drawImage(imageList[this.frames[this.currentFrame].image], this.x + offsetX + this.frames[this.currentFrame].x, this.y + offsetY + this.frames[this.currentFrame].y );
+            
+            if( this.rotate ) {                                
+                var nx = this.x + offsetX + this.frames[this.currentFrame].tx;
+                var ny = this.y + offsetY + this.frames[this.currentFrame].ty;
+                
+                // move to correct position
+                ctx.translate(nx, ny);
+                // console.log(this.frames[this.currentFrame].angle);
+                // rotate the canvas to the specified degrees
+                ctx.rotate(this.frames[this.currentFrame].angle);
+                ctx.drawImage(imageList[this.frames[this.currentFrame].image],
+                                        this.x + offsetX + this.frames[this.currentFrame].x + ( -1 * nx),
+                                        this.y + offsetY + this.frames[this.currentFrame].y + ( -1 * ny));
+            }
+            else
+            {
+                ctx.drawImage(imageList[this.frames[this.currentFrame].image], this.x + offsetX + this.frames[this.currentFrame].x, this.y + offsetY + this.frames[this.currentFrame].y );
+            }
             ctx.restore();
         }
     }    

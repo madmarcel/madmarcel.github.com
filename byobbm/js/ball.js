@@ -74,11 +74,13 @@ Ball.prototype.render = function( ctx, offsetX, offsetY, otherImages ) {
     }
 }
 
-Ball.prototype.update = function(ox,oy) {
+Ball.prototype.update = function(ox, oy, forced) {
     
     if( this.paused ) {
         return;
     }
+    
+    forced = typeof forced !== 'undefined' ? forced : false;
     
     if( this.performScan ) {
         this.findClosestEntryNode( parent.scenes, 10 );
@@ -111,7 +113,10 @@ Ball.prototype.update = function(ox,oy) {
             if( this.x == actualX && this.y == actualY ) {
                 
                 if( this.scene !== null && this.track !== null && this.target !== null && this.track.hasOwnProperty('id')) {
-                    this.scene.triggerEvent( this.track.id, this.target, this );
+                    // forced updates skip triggers, otherwise we get infinite loops
+                    if( !forced ) {
+                        this.scene.triggerEvent( this.track.id, this.target, this );
+                    }
                 }
                 
                 if( currentNode.getNodeType() === "blocking" ) {
@@ -275,5 +280,12 @@ Ball.prototype.reset = function() {
     this.performScan = true;
     if( this.x_delta === 0 && this.y_delta === 0 ) {
         this.y_delta = 1;
+    }
+}
+
+/* allows us to speed up the ball a bit */
+Ball.prototype.forcedUpdate = function() {
+    if( this.scene !== null ) {
+        this.update(this.scene.x, this.scene.y, true);
     }
 }

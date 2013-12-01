@@ -567,6 +567,7 @@ var checkWinCondition = function() {
     // store on the stack
     stack.push( { "s" : 1, "d" : d } );
     
+    // Note: a 'g' tile doesn't go right
     var lookup = {
                     "a" : [ 0, 1, 2 ],
                     "b" : [ 2, 1, 0 ],
@@ -574,6 +575,7 @@ var checkWinCondition = function() {
                     "d" : [ 0, 2, 1 ],
                     "e" : [ 1, 0, 2 ],
                     "f" : [ 1, 2, 0 ],
+                    "g" : [ 1, 1, 2 ]
                 };
     
     var counter = 0;

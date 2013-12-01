@@ -1,0 +1,286 @@
+{
+	"nodetype" : "d",
+        "images" : [ "background.png", "tunnel1.png", "clouds.png", "tunnel2.png", "r1.png" ],
+        "sprites" : [                
+                        { "image" : 0, "z" : 0 },
+                        { "image" : 1, "z" : 2 },
+                        { "image" : 2, "z" : 3 },
+                        { "image" : 3, "z" : 4 },
+                        { "image" : 4, "visible": false }                        
+                    ],
+        
+        "triggers" : [
+                        {                                
+                                "actions" : [
+                                                {       "target" : "node",
+                                                        "track" : 0,
+                                                        "index" : 1,
+                                                        "method" : "releaseBall",
+                                                        "values" : []
+                                                },
+                                                {       "target" : "node",
+                                                        "track" : 2,
+                                                        "index" : 1,
+                                                        "method" : "releaseBall",
+                                                        "values" : []
+                                                }
+                                           ]
+                        },
+                        {
+                                "track" : 0,
+                                "node" : 22,                                
+                                "actions" : [
+                                                {
+                                                        "target" : "ball",
+                                                        "method" : "forcedUpdate",
+                                                        "values" : []
+                                                }
+                                            ]                                
+                        },
+                        {
+                                "track" : 0,
+                                "node" : 23,                                
+                                "actions" : [
+                                                {
+                                                        "target" : "ball",
+                                                        "method" : "forcedUpdate",
+                                                        "values" : []
+                                                }
+                                            ]                                
+                        },
+                        {
+                                "track" : 0,
+                                "node" : 24,
+                                "actions" : [
+                                                {
+                                                        "target" : "ball",
+                                                        "method" : "forcedUpdate",
+                                                        "values" : []
+                                                }
+                                            ]
+                        },
+                        {
+                                "track" : 0,
+                                "node" : 25,
+                                "actions" : [
+                                                {
+                                                        "target" : "ball",
+                                                        "method" : "forcedUpdate",
+                                                        "values" : []
+                                                }
+                                            ]
+                        },
+                        {
+                                "track" : 0,
+                                "node" : 26,
+                                "actions" : [
+                                                {
+                                                        "target" : "ball",
+                                                        "method" : "forcedUpdate",
+                                                        "values" : []
+                                                }
+                                            ]
+                        },
+                        {
+                                "track" : 0,
+                                "node" : 27,
+                                "actions" : [
+                                                {
+                                                        "target" : "ball",
+                                                        "method" : "forcedUpdate",
+                                                        "values" : []
+                                                }
+                                            ]
+                        },
+                        {
+                                "track" : 0,
+                                "node" : 32,
+                                "actions" : [
+                                                {
+                                                        "target" : "ball",
+                                                        "method" : "forcedUpdate",
+                                                        "values" : []
+                                                }
+                                            ]
+                        },
+                        {
+                                "track" : 0,
+                                "node" : 33,
+                                "actions" : [
+                                                {
+                                                        "target" : "ball",
+                                                        "method" : "forcedUpdate",
+                                                        "values" : []
+                                                }
+                                            ]
+                        },
+                        {
+                                "track" : 0,
+                                "node" : 34,
+                                "actions" : [
+                                                {
+                                                        "target" : "ball",
+                                                        "method" : "forcedUpdate",
+                                                        "values" : []
+                                                }
+                                            ]
+                        },
+                        {
+                                "track" : 0,
+                                "node" : 35,
+                                "actions" : [
+                                                {
+                                                        "target" : "ball",
+                                                        "method" : "forcedUpdate",
+                                                        "values" : []
+                                                }
+                                            ]
+                        },
+                        {
+                                "track" : 0,
+                                "node" : 47,
+                                "actions" : [
+                                                {
+                                                        "target" : "ball",
+                                                        "method" : "forcedUpdate",
+                                                        "values" : []
+                                                }
+                                            ]
+                        },
+                        {
+                                "track" : 0,
+                                "node" : 48,
+                                "actions" : [
+                                                {
+                                                        "target" : "ball",
+                                                        "method" : "forcedUpdate",
+                                                        "values" : []
+                                                }
+                                            ]
+                        },
+                        {
+                                "track" : 0,
+                                "node" : 49,
+                                "actions" : [
+                                                {
+                                                        "target" : "ball",
+                                                        "method" : "forcedUpdate",
+                                                        "values" : []
+                                                }
+                                            ]
+                        }
+                     ],
+        "animations" : [
+                                { "x" : 11, "y" : 27, "z":4,
+                                  "loop": true,
+                                  "paused": false,
+                                  "rotate": true,
+                                  "angleinc" : 3,
+                                  "totalangle" :180,
+                                  "frames":[                                                
+                                                { "image":4, "duration": 1, "x": 0, "y": 0, "angle": -16, "tx": 35.5, "ty": 36 }
+                                            ],
+                                  "endTriggers" : [ 0 ]
+                                }                              
+                       ],
+        "tracks" : [
+                        { "nodes":[
+                                { "x": 46, "y": 0 },
+                                { "x": 46, "y": 23, "blocking" : true, "showhead": true },
+                                { "x": 46, "y": 30 },
+                                { "x": 48, "y": 30 },
+                                { "x": 50, "y": 30 },
+                                { "x": 52, "y": 30 },
+                                { "x": 55, "y": 31 },
+                                { "x": 58, "y": 32 },                                                                                     
+                                { "x": 60, "y": 33 },
+                                { "x": 62, "y": 34 },
+                                { "x": 64, "y": 35 },
+                                { "x": 65, "y": 36 },
+                                { "x": 66, "y": 37 },
+                                { "x": 69, "y": 40 },
+                                { "x": 71, "y": 43 },
+                                { "x": 73, "y": 44 },
+                                { "x": 74, "y": 46 },
+                                { "x": 75, "y": 48 },
+                                { "x": 76, "y": 50 },
+                                { "x": 77, "y": 53 },
+                                { "x": 78, "y": 57 },
+                                { "x": 78, "y": 60 },
+                                
+                                { "x": 79, "y": 63 },
+                                { "x": 78, "y": 65 },
+                                { "x": 78, "y": 67 },
+                                { "x": 77, "y": 69 },
+                                { "x": 77, "y": 72 },
+                                { "x": 76, "y": 75 },
+                                { "x": 75, "y": 77 },
+                                { "x": 74, "y": 79 },
+                                { "x": 73, "y": 81 },
+                                { "x": 71, "y": 83 },
+                                { "x": 68, "y": 86 },
+                                { "x": 66, "y": 88 },
+                                { "x": 64, "y": 90 },
+                                { "x": 62, "y": 91 },
+                                { "x": 60, "y": 92 },
+                                { "x": 58, "y": 93 },
+                                { "x": 55, "y": 94 },
+                                { "x": 52, "y": 94 },
+                                { "x": 46, "y": 94, "note": 40 },
+                                
+                                { "x": 41, "y": 94 },
+                                { "x": 37, "y": 94 },
+                                { "x": 34, "y": 93 },
+                                { "x": 32, "y": 92 },                                
+                                { "x": 30, "y": 91 },
+                                { "x": 28, "y": 90 },
+                                { "x": 27, "y": 89 },
+                                { "x": 26, "y": 88 },
+                                { "x": 24, "y": 86 },
+                                { "x": 23, "y": 85 },
+                                { "x": 21, "y": 83 },
+                                { "x": 19, "y": 81 },
+                                { "x": 18, "y": 79 },
+                                { "x": 17, "y": 77 },
+                                { "x": 16, "y": 75 },
+                                { "x": 15, "y": 72 },
+                                { "x": 15, "y": 69 },
+                                { "x": 14, "y": 67 },
+                                { "x": 14, "y": 65 },
+                                { "x": 13, "y": 63 },                                
+                                { "x": 0, "y": 63 }                        
+                                ], "z": 3, "id" : 0
+                        },
+                        { "nodes":[
+                                { "x": 0, "y": 19 },                                
+                                { "x": 99, "y": 19 }
+                                ], "z": 1, "id" : 1
+                        },
+                        { "nodes":[
+                                { "x": 99, "y": 63 },
+                                { "x": 85, "y": 63, "blocking": true, "showhead": true },                                
+                                { "x": 79, "y": 63 },
+                                { "x": 78, "y": 65 },
+                                { "x": 78, "y": 67 },
+                                { "x": 77, "y": 69 },
+                                { "x": 77, "y": 72 },
+                                { "x": 76, "y": 75 },
+                                { "x": 75, "y": 77 },
+                                { "x": 74, "y": 79 },
+                                { "x": 73, "y": 81 },
+                                { "x": 71, "y": 83 },
+                                { "x": 68, "y": 86 },
+                                { "x": 66, "y": 88 },
+                                { "x": 64, "y": 90 },
+                                { "x": 62, "y": 91 },
+                                { "x": 60, "y": 92 },
+                                { "x": 58, "y": 93 },
+                                { "x": 55, "y": 94 },
+                                { "x": 52, "y": 94 },
+                                { "x": 46, "y": 94 },
+                                { "x": 46, "y": 95 },        
+                                { "x": 46, "y": 99 }        
+                                ], "z": 3, "id" : 2
+                        }
+                        ]
+}

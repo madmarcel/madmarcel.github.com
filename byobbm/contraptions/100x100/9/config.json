@@ -1,0 +1,137 @@
+{
+	"nodetype" : "g",
+        "images" : [ "background.png", "cannon.png", "human.png", "alien1.png", "alien2.png", "alien3.png", "bullet.png" ],
+        "sprites" : [
+                        { "image" : 0, "z" : 0 },
+                        { "image" : 1, "z" : 2, "visible": false },
+                        { "image" : 2, "z" : 2, "visible": false },
+                        { "image" : 3, "z" : 2, "visible": false },
+                        { "image" : 4, "z" : 2, "visible": false },
+                        { "image" : 5, "z" : 2, "visible": false }
+                    ],
+        
+        "triggers" : [
+                       { "track" : 2,
+			 "node" : 0,
+			 "actions" : [
+						{ "target" : "ball", "method" : "setProp", "values" : [ "mask", { "index" : 2, "x" : 0, "y": -1 } ] }
+					]
+		       },
+                       { "track" : 2,
+			 "node" : 2,
+			 "actions" : [
+						{ "target" : "ball", "method" : "setProp", "values" : [ "mask", { "index" : 1, "x" : 0, "y": -2 } ] }
+					]
+		       },
+                       { "track" : 2,
+			 "node" : 5,
+			 "actions" : [
+						{ "target" : "ball", "method" : "setProp", "values" : [ "mask", { "index" : 2, "x" : 0, "y": -1 } ] }
+					]
+		       },
+                       { "track" : 2,
+			 "node" : 7,
+			 "actions" : [
+						{ "target" : "ball", "method" : "setProp", "values" : [ "mask", null ] }
+					]
+		       },
+                       { "track" : 1,
+			 "node" : 0,
+			 "actions" : [
+						{ "target" : "ball", "method" : "setProp", "values" : [ "mask", { "index" : 3, "x" : -2, "y": -1 } ] }
+					]
+		       },
+                       { "track" : 1,
+			 "node" : 1,
+			 "actions" : [
+						{ "target" : "ball", "method" : "setProp", "values" : [ "visible", true ] }
+					]
+		       },
+                       { "track" : 1,
+			 "node" : 2,
+			 "actions" : [
+						{ "target" : "node", "track": 0, "index": 0, "method" : "releaseBall", "values" : [] }
+					]
+		       },
+                       { "track" : 1,
+			 "node" : 16,
+			 "actions" : [
+						{ "target" : "ball", "method" : "setProp", "values" : [ "mask", null ] }
+					]
+		       },
+                       { "enabled" : false,
+                         "track" : 0,
+			 "node" : 0,
+			 "actions" : [
+						{ "target" : "ball", "method" : "setProp", "values" : [ "mask", { "index" : 5, "x" : -2, "y": -1 } ] },
+                                                { "target" : "trigger", "index": 8, "method" : "setProp", "values" : [ "enabled", false ] },
+                                                { "target" : "trigger", "index": 10, "method" : "setProp", "values" : [ "enabled", true ] }
+					]
+		       },
+                       { "enabled" : false,
+                         "track" : 0,
+			 "node" : 0,
+			 "actions" : [
+						{ "target" : "ball", "method" : "setProp", "values" : [ "mask", { "index" : 5, "x" : -2, "y": -1 } ] },
+                                                { "target" : "trigger", "index": 9, "method" : "setProp", "values" : [ "enabled", false ] },
+                                                { "target" : "trigger", "index": 8, "method" : "setProp", "values" : [ "enabled", true ] }
+					]
+		       },
+                       { "enabled" : true,
+                         "track" : 0,
+			 "node" : 0,
+			 "actions" : [
+						{ "target" : "ball", "method" : "setProp", "values" : [ "mask", { "index" : 4, "x" : -2, "y": -1 } ] },
+                                                { "target" : "trigger", "index": 10, "method" : "setProp", "values" : [ "enabled", false ] },
+                                                { "target" : "trigger", "index": 9, "method" : "setProp", "values" : [ "enabled", true ] }
+					]
+		       },                       
+                       { "track" : 0,
+			 "node" : 1,
+			 "actions" : [
+						{ "target" : "ball", "method" : "setProp", "values" : [ "visible", true ] }
+					]
+		       }
+                     ],
+        "animations" : [],
+        "tracks" : [
+                        { "nodes":[
+                                { "x": 46, "y": 0, "blocking" : true, "showhead" : false },
+                                { "x": 46, "y": 2 },
+                                { "x": 46, "y": 19, "switch" : true, "toggled" : true, "track": 1, "index": 3 },
+                                { "x": 46, "y": 99 }                        
+                                ], "z": 3, "id" : 0
+                        },
+                        { "nodes":[
+                                { "x": 0, "y": 19, "delayTime": 500, "showhead" : false },
+                                { "x": 0, "y": 21 },
+                                { "x": 42, "y": 19 },
+                                { "x": 92, "y": 19 },
+                                { "x": 92, "y": 28 },
+                                { "x": 7, "y": 28 },
+                                { "x": 7, "y": 37 },
+                                { "x": 92, "y": 37 },
+                                { "x": 92, "y": 46 },
+                                { "x": 7, "y": 46 },
+                                { "x": 7, "y": 55 },
+                                { "x": 85, "y": 55 },
+                                { "x": 85, "y": 64 },
+                                { "x": 49, "y": 64 },
+                                { "x": 49, "y": 92 },
+                                { "x": 46, "y": 96 },
+                                { "x": 46, "y": 99 }                                
+                                ], "z": 1, "id" : 1
+                        },
+                        { "nodes":[
+                                { "x": 99, "y": 63 },
+                                { "x": 96, "y": 63, "delayTime": 50 },
+                                { "x": 96, "y": 92, "delayTime": 800 },
+                                { "x": 62, "y": 92 },
+                                { "x": 74, "y": 92, "delayTime": 50 },
+                                { "x": 3, "y": 92 },
+                                { "x": 3, "y": 63 },
+                                { "x": 0, "y": 63 }        
+                                ], "z": 1, "id" : 2
+                        }
+                        ]
+}
