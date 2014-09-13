@@ -36,7 +36,7 @@ Firefox or Chrome, screen resolution of 1280x800 pixels or more.
 
 Links:
 ------
- - Website: http://madmarcel.github.com/
+ - Website: http://madmarcel.github.io/
  - Source repository: https://github.com/madmarcel/yoas 
 
 
