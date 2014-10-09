@@ -8,7 +8,7 @@ var BigBadWolf = function(draw, roofMouth, tongue) {
 
     this.headTop = {
         'y': 0,
-        'sprite': new Sprite( 800, 600, [ { ssx: 0, ssy: 0 } ], 2 ),
+        'sprite': new Sprite( 800, 501, [ { ssx: 0, ssy: 0 } ], 2 ),
         'yMin': 1,
         'yMax': 330
     };
