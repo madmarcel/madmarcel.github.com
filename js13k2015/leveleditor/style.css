@@ -102,10 +102,35 @@ tr.cell td:hover {
   text-decoration: none;
 }
 
+.white {
+	background: #fff;
+	color: #000;
+	font-weight: bold;
+}
+
+.btn.white:hover {
+	background: #fff;
+}
+
+.green {
+	background: green;
+}
+
+.btn.green:hover {
+	background: darkgreen;
+}
+
 .bwrap {
+	margin-top: 10px;
 }
 
 #levelindicator {
+	font-size: 32px;
+	font-weight: bold;
+	margin-right: 20px;
+}
+
+#tilesetindicator {
 	font-size: 32px;
 	font-weight: bold;
 	margin-right: 20px;
@@ -127,4 +152,10 @@ tr.cell td:hover {
 	-o-transform: scaleX(-1);
 	-webkit-transform: scaleX(-1);
 	transform: scaleX(-1);
+}
+
+#helptext {
+	display: block;
+	margin-top: 20px;
+	font-size: 20px;
 }
