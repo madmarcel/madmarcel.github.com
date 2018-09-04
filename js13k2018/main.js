@@ -312,6 +312,7 @@ const processCommands = (commands, flag, inc) => {
     }
 };
 
+
 const vgrender = (newctx, data) => {
     //console.log('[' + data + ']');
     let commands = data.split(/([a-z]\,[\d+\,*]+)/).filter(s => s !== '');
@@ -386,7 +387,11 @@ const data = [
      // van
      220,105,'x,2k,2n,4,2,180,3,2k,29n,37,99,119,4,2k,28n,5,7,179,91,5f,185,6,167,98,205,98,206,59x,0k,27b,5,54,200,9k,0o,2d,205,60,184,3d,207,57,207,93x,2k,2i,201,62,6k,29n,187,77,20,24,5n,2,77,13,23,5k,17n,4,58,11,13,5x,0k,14n,12,12,104,38,5x,2k,29a,153,98,24,0,180a,45,98,24,0,180k,16n,130,12,45,36,5x,0k,0f,180,51,179,8,195,49k,16f,181,48,180,10,194,48k,0o,2d,195,51,180,9',
      // van wheel
-     44,44,'k,0i,22,22,22k,12i,23,22,10k,21i,23,6,3'
+     44,44,'k,0i,22,22,22k,12i,23,22,10k,21i,23,6,3',
+     // grass
+     30,40,'k,8f,2,3,1,37,14,33f,16,1,8,37,19,33f,28,6,13,34,25,34k,0o,2d,2,3,11,23d,2,3,1,40d,16,0,10,25d,16,0,19,26d,28,3,19,26d,28,3,26,37',
+     // house
+     255,375,'x,2k,17n,2,2,251,98,20k,2b,2,15,251,272k,21b,2,269,251,100x,0x,2k,19n,19,150,61,109,10x,2k,12i,69,212,3k,16n,97,149,143,58,10n,97,42,60,58,10n,19,42,60,58,10n,97,41,60,58,10n,180,41,60,58,10k,1b,14,257,70,10x,0k,21b,1,15,252,5k,15b,108,149,12,58b,188,42,12,56b,106,42,12,58b,27,42,12,58k,3b,11,2,233,3k,0o,2d,1,14,254,14'
 ];
 
 const palette = [
@@ -433,6 +438,7 @@ class LoadingState extends State {
 
     init() {
         setPalette(palette);
+
         let d = data;
         let inc = 100.0 / (d.length / 3);
         for(let i = 0; i < d.length; i += 3) {
@@ -463,7 +469,7 @@ class LoadingState extends State {
         this.config.tree1 = this.genBGTile(this.config.tree1);
         this.config.tree2 = this.genBGTile(this.config.tree2);
 
-        this.next('play');
+        this.next('titl');
     }
 
     singleColourSprite(colour, r, w, h) {
@@ -1014,11 +1020,13 @@ const sounds = [
     [3,,0.2579,0.3189,0.3249,0.0597,,0.1712,,,,-0.2342,0.6582,,,0.4716,-0.2343,-0.1203,1,,,,,0.5],
     [3,,0.3455,0.514,0.3441,0.1119,,0.0362,,,,,,,,,,,1,,,,,0.5],
 
-    
+    // drink
+    [0,,0.3403,,0.3456,0.25,,0.0916,,,,,,0.137,,,,,1,,,,,0.5],
+    [0,,0.3403,,0.3184,0.2172,0.0192,0.0916,,,,0.0409,0.0441,0.1705,0.01,0.0017,-0.0489,,1,-0.0258,0.0765,,,0.5]
 ];
 
 let playsound = (index) => {
-    let player = new Audio();
+    const player = new Audio();
     player.src = jsfxr(sounds[index]);
     player.play();
 };
@@ -1079,9 +1087,9 @@ class TitleState extends State {
         super(c, i);
 
         let actions = {
-            'Story': 'stor',
+            'Story': 'play',
             'Start': 'play',
-            'Calibrate': 'cali'
+            'Controls': 'play'
         };
 
         this.buttons = [];
@@ -1284,6 +1292,19 @@ class Grabber {
     }
 
     update() {
+        if(this.x < -100) {
+            this.x = -100;
+        }
+        if(this.x > 1200) {
+            this.x = 1200;
+        }
+        if(this.y < -100) {
+            this.y = -100;
+        }
+        if(this.y > 650) {
+            this.y = 650;
+        }
+
         // update the grab offset
         this.gx = this.x + this.oX;
         this.gy = this.y + this.oY;
@@ -1293,6 +1314,7 @@ class Grabber {
     grabThing(target) {
         if(!this.target) {
             if(target.checkGrab(this.gx, this.gy, this.gw, this.gh)) {
+                playsound(0);
                 this.target = target;
             }
         }
@@ -1316,32 +1338,78 @@ class Hand extends Grabber {
         super(x,y,c, 2, 30, 30, 0, 20);
 
         this.imageIndex = 2;
-        this.w = this.c[this.imageIndex].width;
-        this.h = this.c[this.imageIndex].height;
+        this.w = this.c[2].width;
+        this.h = this.c[2].height;
         this.angle = 90;
         this.flip = flip;
         if(flip) {
             this.angle = -90;
         }
+
+        this.hbx = this.x;
+        this.hby = this.y;
+        this.hbw = this.c[2].height;
+        this.hbh = this.c[2].width;
+
+        this.downCount = 0;
     }
 
     render(c) {
         if(this.target) {
             this.target.render(c, true);
         }
-        drawImage(c,this.c[this.imageIndex], this.x, this.y, this.w, this.h, this.angle, this.flip);
+        drawImage(c,this.c[2], this.x, this.y, this.w, this.h, this.angle, this.flip);
         // render the grabber hitpoint
         //c.fillStyle = 'blue'
         //c.fillRect(this.gx, this.gy, this.gw, this.gh)
+
+        /*
+        c.strokeStyle = 'red'
+        c.beginPath()
+        c.rect(this.hbx, this.hby, this.hbw, this.hbh)
+        c.stroke()
+        */
     }
 
     update(global) {
         super.update();
+        this.hbx = this.x + 50;
+        this.hby = this.y - 50;
+
         if(!this.target) {
             global.grabthese.forEach(g => {
                 this.grabThing(g);
             });
         }
+    }
+
+    move(incX, incY) {
+        if(incX !== null) {
+            this.x += incX;
+        }
+        if(incY !== null) {
+            this.oldy = this.y;
+            this.y += incY;
+
+            if(this.y > this.oldy) {
+                this.downCount += Math.abs((this.y - this.oldy));
+            } else {
+                this.downCount = 0;
+            }
+        }
+    }
+
+    collideWith(list) {
+        for(let i = 0; i < list.length; i++) {
+            if(!list[i].grabbed) {
+                if(overlaps(this.hbx, this.hby, this.hbw, this.hbh,
+                            list[i].hbx, list[i].hby, list[i].hbw, list[i].hbh
+                ) > 1.0) {
+                    return { 'r': true, 'c': this.downCount, 'o': list[i] }
+                }
+            }
+        }
+        return { 'r': false }
     }
 }
 
@@ -1356,8 +1424,8 @@ class Giant {
         this.fw = this.c[2].width;
         this.fh = this.c[2].height;
 
-        this.lefthand = new Hand(this.x - 300, this.y + 150, c, false);
-        this.righthand = new Hand(this.x + 600, this.y + 90, c, true);
+        this.lefthand = new Hand(this.x - 300, this.y + 180, c, false);
+        this.righthand = new Hand(this.x + 600, this.y + 180, c, true);
     }
 
     render(c) {
@@ -1381,10 +1449,10 @@ class Giant {
         this.righthand.update(global);
     }
 
-    handleMove(x,y) {
-        this.righthand.x = x;
-        this.righthand.y = y;
-    }
+    /* (handleMove(x,y) {
+        this.righthand.x = x
+        this.righthand.y = y
+    } */
 }
 
 // this allows a thing to be grabbed and also triggers when held over a hoverpoint
@@ -1495,9 +1563,26 @@ class Beer extends Grabbable {
         this.energy = 100;
         this.ts = timestamp();
         this.closeEyes = true;
+
+        this.hbx = this.x;
+        this.hby = this.y;
+        this.hbw = this.c[13].width;
+        this.hbh = this.c[13].height;
+        this.flip = false;
     }
 
     render(c, override) {
+        if(this.x > 1366) {
+            return
+        }
+        // render the hitbox
+        /*
+        c.strokeStyle = 'red';
+        c.beginPath();
+        c.rect(this.hbx, this.hby, this.hbw, this.hbh);
+        c.stroke();
+        */
+
         let i = 13;
         switch(this.state) {
             case STATE.DRINKING:
@@ -1532,12 +1617,17 @@ class Beer extends Grabbable {
 
     update() {
         super.update();
+
+        this.hbx = this.x;
+        this.hby = this.y;
+
         if(this.state === STATE.DRINKING) {
             let t = timestamp();
             if(t >= this.ts) {
                 this.ts = timestamp() + 300;
                 if(this.energy > 0) {
                     this.energy -= 10;
+                    playsound(randomint(5,6));
                 }
             }
         }
@@ -1585,12 +1675,13 @@ class Beer extends Grabbable {
     }
 
     isExhausted() {
-        console.log(this.energy);
+        //console.log(this.energy)
         return this.energy <= 0
     }
 
     releaseAction() {
         this.state = STATE.FALLING;
+        playsound(0);
     }
 }
 
@@ -1601,11 +1692,17 @@ class Van {
         this.c = config;
 
         this.ismoving = true;
+        this.hasbeeped = false;
 
         this.rot = 0;
         this.bob = 0;
         this.inc = 1;
         this.count = 0;
+
+        this.hbx = this.x + this.c[19].width - 30;
+        this.hby = this.y;
+        this.hbw = 30;
+        this.hbh = this.c[13].height;
     }
 
     render(c) {
@@ -1616,6 +1713,12 @@ class Van {
         drawImage(c, this.c[20], this.x + 131, this.y + 78, 44, 44, this.rot);
         // back
         drawImage(c, this.c[20], this.x + 23, this.y + 78, 44, 44, this.rot);
+
+        // render the hitbox
+        /* c.strokeStyle = 'red'
+        c.beginPath()
+        c.rect(this.hbx, this.hby, this.hbw, this.hbh)
+        c.stroke() */
     }
 
     update() {
@@ -1642,10 +1745,72 @@ class Van {
         }
     }
 
-    beep() {
-        playsound(1);
+    collideWith(list) {
+        for(let i = 0; i < list.length; i++) {
+            if(!list[i].grabbed) {
+                if(overlaps(this.hbx, this.hby, this.hbw, this.hbh,
+                            list[i].hbx, list[i].hby, list[i].hbw, list[i].hbh
+                ) > 2.0) {
+                    this.beep();
+                    this.ismoving = false;
+                    return true
+                }
+            }
+        }
+        this.hasbeeped = false;
+        this.ismoving = true;
+        return false
     }
 
+    beep() {
+        if(!this.hasbeeped) {
+            playsound(1);
+            window.setTimeout(playsound, 400, 1);
+            this.hasbeeped = true;
+        }
+    }
+}
+
+class House {
+    constructor(x, y, config) {
+        this.x = x;
+        this.y = y;
+        this.c = config;
+
+        this.hbx = this.x;
+        this.hby = this.y;
+        this.hbw = this.c[22].width;
+        this.hbh = this.c[22].height;
+        
+        this.miny = this.y + 270;
+        this.grabbed = false;
+        this.bashed = false;
+    }
+
+    render(c) {
+        // draw the house
+        c.drawImage(this.c[22], this.x, this.y);
+
+        // render the hitbox
+        /*
+        c.strokeStyle = 'red'
+        c.beginPath()
+        c.rect(this.hbx, this.hby, this.hbw, this.hbh)
+        c.stroke()
+        */
+    }
+
+    update() {
+        this.hbx = this.x;
+        this.hby = this.y;
+    }
+
+    bash(power) {
+        this.y += Math.ceil(power * 0.1);
+        if(this.y > this.miny) {
+            this.y = this.miny;
+        }
+    }
 }
 
 class PlayState extends State {
@@ -1653,7 +1818,9 @@ class PlayState extends State {
         super(c, i);
 
         this.global = {
-            grabthese: []
+            grabthese: [],
+            bashthese: [],
+            collide: []
         };
     }
 
@@ -1662,10 +1829,14 @@ class PlayState extends State {
         //console.log(this.config)
 
         this.giant = new Giant(428, 345, this.imgs);
-        this.beer = new Beer(800, 317 - 86, this.imgs);
+        this.beer = new Beer(2000, 317 - 86, this.imgs);
         this.van = new Van(20, 553, this.imgs);
+        this.house = new House(800, 404, this.imgs);
 
         this.global.grabthese.push(this.beer);
+        this.global.bashthese.push(this.house);
+        this.global.collide.push(this.house);
+        this.global.collide.push(this.beer);
 
         // generate the two bg layers
         this.offset1 = -10;
@@ -1696,6 +1867,9 @@ class PlayState extends State {
         this.gamepads = {};
         this.initGamepad();
         //playsound(0)
+
+        this.shaking = false;
+        this.shake_timestamp = 0;
     }
 
     render(ctx) {
@@ -1719,19 +1893,35 @@ class PlayState extends State {
         this.van.render(ctx);
 
         // render the grass/plants
+        this.renderGrass(ctx, 15, 768 - 122, this.goffset);
 
         // render the ground blocks
         this.renderGround(ctx, 15, 768 - 95, this.goffset);
 
+        this.house.render(ctx);
+
         //let shakeX = randomint(-25, 25) // rndInt is a global helper of mine just random int from a range of two numbers
         //let shakeY = randomint(-25, 25)
 
-        //ctx.shakeScreen(ctx, 0, shakeY)
+        if(this.shaking) {
+            ctx.shakeScreen(ctx, 0, randomint(-25, 25));
+
+            if(timestamp() >= this.shake_timestamp) {
+                this.shaking = false;
+                //console.log('off')
+            }
+        }
     }
 
     renderBG(ctx, tree, qty, Yoffset, Xoffset) {
         for(let x = 0; x < qty; x++) {
             drawImage(ctx, tree, x * 300 + Xoffset, Yoffset);
+        }
+    }
+
+    renderGrass(ctx, qty, Yoffset, Xoffset) {
+        for(let x = 0; x < qty; x++) {
+            ctx.drawImage(this.imgs[21], x * 100 + Xoffset, Yoffset);
         }
     }
 
@@ -1759,6 +1949,12 @@ class PlayState extends State {
         this.giant.update(this.global);
         this.beer.update();
         this.van.update();
+        this.house.update();
+        if(this.van.collideWith(this.global.collide)) {
+            this.stopped = true;
+        } else {
+            this.stopped = false;
+        }
         //this.stopped = this.van.checkStop()
 
         // bg offset
@@ -1766,6 +1962,7 @@ class PlayState extends State {
             this.offset1 -= 0.25;
             this.offset2 -= 0.5;
             this.goffset -= 2;
+            this.house.x -= 2;
             for(let i = 0; i < this.trees.length; i++) {
                 this.trees[i].x -= 2;
                 if(this.trees[i].x < -500) {
@@ -1792,6 +1989,33 @@ class PlayState extends State {
                 this.clouds[i].x += randomint(2000, 4000) + randomint(-40, 40);
             }
         }
+
+        let bl = this.giant.lefthand.collideWith(this.global.bashthese);
+        let br = this.giant.righthand.collideWith(this.global.bashthese);
+
+        if(bl.r) {
+            //console.log('hit left', bl)
+            this.bashThing(bl.o, bl.c);
+        }
+        if(br.r) {
+            //console.log('hit right', br)
+            this.bashThing(br.o, br.c);
+        }
+    }
+
+    bashThing(object, count) {
+        if(count > 10) {
+            object.bash(count);
+            // play sound
+            playsound(randomint(2,4));
+            this.setShakeScreen(200);
+            object.bashed = false;
+        }
+    }
+
+    setShakeScreen(duration) {
+        this.shaking = true;
+        this.shake_timestamp = timestamp() + duration;
     }
 
     finish() {
@@ -1799,29 +2023,85 @@ class PlayState extends State {
     }
 
     handleMove(mx, my) {
-        this.giant.handleMove(mx, my);
+        //this.giant.handleMove(mx, my)
     }
 
     handleClick(mx, my) {}
 
     /* ------------- Gamepad code -------------- */
 
+    moveHands(a, b, c, d) {
+        this.giant.lefthand.move(a,b);
+        this.giant.righthand.move(c,d);
+    }
+
+    convertValue(value) {
+        //console.log(value)
+        let r = 0;
+        if(value > 0.2) {
+            r = 6;
+        }
+        if(value > 0.5) {
+            r = 12;
+        }
+        if(value > 0.9) {
+            r = 24;
+        }
+
+        if(value < -0.2) {
+            r = -6;
+        }
+        if(value < -0.5) {
+            r = -12;
+        }
+        if(value < -0.9) {
+            r = -24;
+        }
+        return r
+    }
+
     processGamePadInput(axis, value) {
-        
+        let lx_inc = null;
+        let ly_inc = null;
+        let rx_inc = null;
+        let ry_inc = null;
+
+        switch(axis) {
+            case 0:
+                lx_inc = this.convertValue(value);
+            break;
+            case 1:
+                ly_inc = this.convertValue(value);
+            break;
+            case 2:
+                rx_inc = this.convertValue(value);
+            break;
+            case 3:
+                ry_inc = this.convertValue(value);
+            break;
+        }
+        this.moveHands(lx_inc, ly_inc, rx_inc, ry_inc);
     }
 
     checkGamePads() {
+        let gamepads = navigator.getGamepads();
+        // firefox returns an autoupdating array, chrome returns an object
+        // firefox also does something funky with axes mapping :o
+        if(!Array.isArray(gamepads)) {
+            this.gamepads = gamepads;
+        }
         let keys = Object.keys(this.gamepads);
         keys.forEach(k => {
             let controller = this.gamepads[k];
-            if(controller.axis) {
-                for(let i = 0; i < controller.axis.length; i++) {
-                    let axis = controller.axes[i];
-                    let val = 0.0;
-                    if (typeof(axis) == "object") {
-                        val = axis.value;
+            if(controller !== null) {
+                if(controller.axes) {
+                    for(let i = 0; i < controller.axes.length; i++) {
+                        let v = controller.axes[i];
+                        if(controller.axes[i].value) {
+                            v = controller.axes[i].value;
+                        }
+                        this.processGamePadInput(i, v);
                     }
-                    this.processGamePadInput(i, val);
                 }
             }
         });
@@ -1837,8 +2117,11 @@ class PlayState extends State {
     }
 
     initGamepad() {
-        window.addEventListener("gamepadconnected", function(e) { this.gamepadHandler(e, true); }, false);
-        window.addEventListener("gamepaddisconnected", function(e) { this.gamepadHandler(e, false); }, false);
+        let self = this;
+        if(!!navigator.getGamepads){
+            window.addEventListener("gamepadconnected", (e) => { self.gamepadHandler(e, true); }, false);
+            window.addEventListener("gamepaddisconnected", (e) => { self.gamepadHandler(e, false); }, false);
+        }
     }
 }
 
@@ -1991,7 +2274,7 @@ class StoryState extends State {
 
         // this invokes the next state class
         let nextState = () => {
-            console.log('Next is', next);
+            //console.log('Next is', next)
             switch(next) {
                 case 'play':
                     currentState = new PlayState(config, imgs);
