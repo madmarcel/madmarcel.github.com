@@ -76,7 +76,7 @@ let overlaps = (ax, ay, aw, ah, bx, by, bw, bh) => {
     if(!r) {
         return 0.0
     } else {
-        let bsize = (bw * bh) / 100.0;
+        let bsize = Math.abs((bw * bh) / 100.0);
         let rsize = Math.abs((r.x2 - r.x1) * (r.y2 - r.y1));
         if(rsize > 0.0 && bsize > 0.0) {
             return rsize / bsize
@@ -147,7 +147,7 @@ let colours = [];
 let ctx = null;
 
 const rad = (d) => {
-    return (Math.PI/180)*d;
+    return (Math.PI/180)*d
 };
 
 const r = {
@@ -260,6 +260,12 @@ const roundRect = (x, y, w, h, r, f) => {
 
 const setPalette = (c) => {
     colours = c;
+};
+
+const replaceColour = (index, colour) => {
+    let old = colours[index];
+    colours[index] = '#' + colour;
+    return old
 };
 
 const processCommands = (commands, flag, inc) => {
@@ -391,7 +397,9 @@ const data = [
      // grass
      30,40,'k,8f,2,3,1,37,14,33f,16,1,8,37,19,33f,28,6,13,34,25,34k,0o,2d,2,3,11,23d,2,3,1,40d,16,0,10,25d,16,0,19,26d,28,3,19,26d,28,3,26,37',
      // house
-     255,375,'x,2k,17n,2,2,251,98,20k,2b,2,15,251,272k,21b,2,269,251,100x,0x,2k,19n,19,150,61,109,10x,2k,12i,69,212,3k,16n,97,149,143,58,10n,97,42,60,58,10n,19,42,60,58,10n,97,41,60,58,10n,180,41,60,58,10k,1b,14,257,70,10x,0k,21b,1,15,252,5k,15b,108,149,12,58b,188,42,12,56b,106,42,12,58b,27,42,12,58k,3b,11,2,233,3k,0o,2d,1,14,254,14'
+     255,375,'x,2k,17n,2,2,251,98,20k,2b,2,15,251,272k,21b,2,269,251,100x,0x,2k,19n,19,150,61,109,10x,2k,12i,69,212,3k,16n,97,149,143,58,10n,97,42,60,58,10n,19,42,60,58,10n,97,41,60,58,10n,180,41,60,58,10k,1b,14,257,70,10x,0k,21b,1,15,252,5k,15b,108,149,12,58b,188,42,12,56b,106,42,12,58b,27,42,12,58k,3b,11,2,233,3k,0o,2d,1,14,254,14',
+     // tractor
+     210,152,'k,0n,54,37,8,44,2x,2k,27b,101,6,79,63n,17,62,177,57,20x,0x,2k,21n,49,116,85,3,4n,40,72,48,24,5a,166,119,50,325,190k,1b,141,13,35,46x,0k,0i,28,125,27i,165,114,39o,2d,117,109,209,90k,13i,165,114,18i,28,125,13x,2k,2i,18,82,5k,2n,98,2,85,4,4x,0k,27f,103,8,88,69,112,69k,0f,137,13,137,62,116,71,96,71,106,14k,1f,136,15,136,58,118,69,97,69,108,16k,0o,2d,102,9,89,67'
 ];
 
 const palette = [
@@ -434,6 +442,13 @@ class LoadingState extends State {
         super(c, []);
         this.progress = 0;
         this.imgs = [];
+
+        this.colourSwapSprites = [
+            // number, flip, colours to swap [ index, hex ]
+            // van - was meant to be the mystery van, but colours didn't work with bg
+            [ 19, 27, '2c84a6', 28, '8ce724', 14, 'ee360d']
+            // tractor
+        ];
     }
 
     init() {
@@ -451,6 +466,21 @@ class LoadingState extends State {
             this.imgs.push(cv);
             this.progress += inc;
         }
+
+        // swap some colours so we can generate extra sprites
+        this.colourSwapSprites.forEach(cswap => {
+            let index = cswap[0] * 3;
+            for(let w = 1; w < cswap.length; w += 2) {
+                replaceColour(cswap[w], cswap[w + 1]);
+            }
+            let width = d[index];
+            let height = d[index + 1];
+            let r = d[index + 2];
+            this.imgs.push(this.createSprite(r, width, height));
+
+            // reset
+            setPalette(palette);
+        });
 
         // we also need to generate some background tree blobs
         let i = 17 * 3;
@@ -472,11 +502,15 @@ class LoadingState extends State {
         this.next('titl');
     }
 
-    singleColourSprite(colour, r, w, h) {
-        setPalette(this.overrideColour(palette, colour));
+    createSprite(r, w, h) {
         let [img, cv] = this.createCanvas(w,h);
         vgrender(img, r);
         return cv
+    }
+
+    singleColourSprite(colour, r, w, h) {
+        setPalette(this.overrideColour(palette, colour));
+        return this.createSprite(r, w, h)
     }
 
     genBGTile(tree) {
@@ -1022,7 +1056,10 @@ const sounds = [
 
     // drink
     [0,,0.3403,,0.3456,0.25,,0.0916,,,,,,0.137,,,,,1,,,,,0.5],
-    [0,,0.3403,,0.3184,0.2172,0.0192,0.0916,,,,0.0409,0.0441,0.1705,0.01,0.0017,-0.0489,,1,-0.0258,0.0765,,,0.5]
+    [0,,0.3403,,0.3184,0.2172,0.0192,0.0916,,,,0.0409,0.0441,0.1705,0.01,0.0017,-0.0489,,1,-0.0258,0.0765,,,0.5],
+
+    // drop glass
+    [1,,0.0571,,0.466,0.3898,,0.1875,,0.6209,0.5363,,,,,,,,1,,,,,0.5]
 ];
 
 let playsound = (index) => {
@@ -1087,9 +1124,9 @@ class TitleState extends State {
         super(c, i);
 
         let actions = {
-            'Story': 'play',
+            'Story': 'stor',
             'Start': 'play',
-            'Controls': 'play'
+            'Controls': 'cali'
         };
 
         this.buttons = [];
@@ -1324,7 +1361,7 @@ class Grabber {
         if(this.target) {
             this.target.moveGrab(this.gx, this.gy);
 
-            if(this.target.isExhausted() && this.target.gy < 30) {
+            if((this.target.isExhausted() || this.target.canBeChucked())&& this.target.gy < 30) {
                 this.target.releaseAction();
                 this.target = null;
             }
@@ -1380,6 +1417,9 @@ class Hand extends Grabber {
             global.grabthese.forEach(g => {
                 this.grabThing(g);
             });
+        }
+        if(this.target && this.target.dead) {
+            this.target = null;
         }
     }
 
@@ -1447,6 +1487,14 @@ class Giant {
         this.head.update(global);
         this.lefthand.update(global);
         this.righthand.update(global);
+    }
+
+    moveLeft(dx, dy) {
+        this.lefthand.move(dx, dy);
+    }
+
+    moveRight(dx, dy) {
+        this.righthand.move(dx, dy);
     }
 
     /* (handleMove(x,y) {
@@ -1531,6 +1579,10 @@ class Grabbable {
         return false
     }
 
+    canBeChucked() {
+        return false
+    }
+
     isInAction() {
         return false
     }
@@ -1563,6 +1615,7 @@ class Beer extends Grabbable {
         this.energy = 100;
         this.ts = timestamp();
         this.closeEyes = true;
+        this.chomp = false;
 
         this.hbx = this.x;
         this.hby = this.y;
@@ -1681,7 +1734,7 @@ class Beer extends Grabbable {
 
     releaseAction() {
         this.state = STATE.FALLING;
-        playsound(0);
+        playsound(7);
     }
 }
 
@@ -1715,10 +1768,10 @@ class Van {
         drawImage(c, this.c[20], this.x + 23, this.y + 78, 44, 44, this.rot);
 
         // render the hitbox
-        /* c.strokeStyle = 'red'
+        /*c.strokeStyle = 'red'
         c.beginPath()
         c.rect(this.hbx, this.hby, this.hbw, this.hbh)
-        c.stroke() */
+        c.stroke()*/
     }
 
     update() {
@@ -1748,9 +1801,20 @@ class Van {
     collideWith(list) {
         for(let i = 0; i < list.length; i++) {
             if(!list[i].grabbed) {
+                if(list[i].name) {
+                    //console.log('Checking ' + list[i].name)
+                    
+                    //console.log(this.hbx, this.hby, this.hbw, this.hbh)
+                    //console.log(list[i].hbx, list[i].hby, list[i].hbw, list[i].hbh)
+
+                    let r = overlaps(this.hbx, this.hby, this.hbw, this.hbh,
+                        list[i].hbx, list[i].hby, list[i].hbw, list[i].hbh);
+                    //console.log('r is ', r)
+                }
+
                 if(overlaps(this.hbx, this.hby, this.hbw, this.hbh,
                             list[i].hbx, list[i].hby, list[i].hbw, list[i].hbh
-                ) > 2.0) {
+                ) > 0.0) {
                     this.beep();
                     this.ismoving = false;
                     return true
@@ -1775,6 +1839,7 @@ class House {
     constructor(x, y, config) {
         this.x = x;
         this.y = y;
+        this.oldy = y;
         this.c = config;
 
         this.hbx = this.x;
@@ -1803,6 +1868,12 @@ class House {
     update() {
         this.hbx = this.x;
         this.hby = this.y;
+
+        if(this.x < -400) {
+            this.x = 1500 + randomint(0, 1000);
+            this.y = this.oldy;
+            this.bashed = false;
+        }
     }
 
     bash(power) {
@@ -1810,6 +1881,163 @@ class House {
         if(this.y > this.miny) {
             this.y = this.miny;
         }
+    }
+}
+
+const STATE$1 = {
+    STANDING: 0,
+    HELD: 1,
+    EATED: 2,
+    EMPTY: 3,
+    FALLING: 4
+};
+
+// a generic thing you can grab, eat and smash
+class Thing extends Grabbable {
+    constructor(x, y, c, index, w, h, flip) {
+        super(x,y,c, index, w - 20, h - 20, 2.0, 10, 10, 10, 10, w - 20, h - 20);
+
+        this.oldy = y;
+        this.i = index;
+
+        this.state = STATE$1.STANDING;
+        this.energy = 100;
+        this.ts = timestamp();
+        this.closeEyes = true;
+        this.chomp = true;
+        this.dead = false;
+        this.flip = flip;
+        this.w = w;
+        this.h = h;
+
+        this.hbx = this.x;
+        this.hby = this.y;
+        this.hbw = this.c[index].width;
+        this.hbh = this.c[index].height;
+    }
+
+    drawWheels(c) {
+        if(this.i == 24) {
+            let o = 0;
+            if(this.flip) {
+                o = 22;
+            }
+            // and the wheels
+            // front
+            drawImage(c, this.c[20], this.x + 131 + o, this.y + 78, 44, 44, 0);
+            // back
+            drawImage(c, this.c[20], this.x + 23 + o, this.y + 78, 44, 44, 0);
+        }
+    }
+
+    render(c, override) {
+        if(this.dead) {
+            return
+        }
+
+        if(this.isFalling()) {
+            //c.drawImage(this.c[this.i], this.x, this.y)
+            drawImage(c, this.c[this.i], this.x, this.y, this.w, this.h, 0, this.flip);
+            this.drawWheels(c);
+            return
+        }
+
+        if(!this.grabbed || override) {
+            drawImage(c, this.c[this.i], this.x, this.y, this.w, this.h, 0, this.flip);
+            this.drawWheels(c);
+        }
+
+        /*
+        c.strokeStyle = 'red';
+        c.beginPath();
+        c.rect(this.hbx, this.hby, this.hbw, this.hbh);
+        c.stroke();
+
+        c.strokeStyle = 'black';
+        c.beginPath();
+        c.rect(this.gx, this.gy, this.gw, this.gh)
+        c.stroke();*/
+    }
+
+    update() {
+
+        if(this.x < -200 || this.dead) {
+            this.x = 1500 + randomint(0, 800);
+            this.y = this.oldy;
+            this.dead = false;
+            this.state = STATE$1.STANDING;
+            this.grabbed = false;
+            this.energy = 100;
+            this.ts = timestamp();
+            this.flip = !this.flip;
+        }
+
+        super.update();
+        this.hbx = this.x;
+        this.hby = this.y;
+
+        if(this.state === STATE$1.EATED) {
+            let t = timestamp();
+            if(t >= this.ts) {
+                this.ts = timestamp() + 300;
+                if(this.energy > 0) {
+                    this.energy = 0;
+                    playsound(5);
+                }
+            }
+        }
+        if(this.isFalling() && this.y < 1400) {
+            this.y += 20;
+        }
+        if((this.isFalling() && this.y >= 800) || 
+            (this.state === STATE$1.STANDING && this.x < -400)) {
+            this.dead = true;
+        }
+
+        if(this.state == STATE$1.EMPTY) {
+            this.dead = true;
+        }
+    }
+
+    isFalling() {
+        return this.state === STATE$1.FALLING
+    }
+
+    isInAction() {
+        return this.state === STATE$1.EATED
+    }
+
+    startAction() {
+        if(this.grabbed && this.energy > 0) {
+            this.ts = timestamp() + 300;
+            this.state = STATE$1.EATED;
+        }
+    }
+
+    endAction() {
+        if(this.grabbed) {
+            if(this.energy > 0) {
+                this.state = STATE$1.HELD;
+            } else {
+                this.state = STATE$1.EMPTY;
+            }
+        }
+    }
+
+    isExhausted() {
+        //console.log(this.energy)
+        return this.energy <= 0
+    }
+
+    canBeChucked() {
+        return true
+    }
+
+    releaseAction() {
+        this.energy = 0;
+        this.grabbed = true;
+        this.state = STATE$1.FALLING;
+        playsound(7);
     }
 }
 
@@ -1833,10 +2061,26 @@ class PlayState extends State {
         this.van = new Van(20, 553, this.imgs);
         this.house = new House(800, 404, this.imgs);
 
+        this.things = [];
+
+        this.thing1 = new Thing(2200, 553, this.imgs, 24, this.imgs[24].width, this.imgs[24].height, true);
+        this.thing2 = new Thing(1500, 530, this.imgs, 23, this.imgs[23].width, this.imgs[23].height, false);
+
+        this.things.push(this.thing1);
+        this.things.push(this.thing2);
+        this.things.push(this.beer);
+        //this.things.push(this.house)
+
         this.global.grabthese.push(this.beer);
+        this.global.grabthese.push(this.thing1);
+        this.global.grabthese.push(this.thing2);
+        
         this.global.bashthese.push(this.house);
         this.global.collide.push(this.house);
         this.global.collide.push(this.beer);
+        this.global.collide.push(this.thing1);
+        this.global.collide.push(this.thing2);
+
 
         // generate the two bg layers
         this.offset1 = -10;
@@ -1887,10 +2131,14 @@ class PlayState extends State {
         this.renderTrees(ctx);
 
 
-        this.beer.render(ctx);
+        //this.beer.render(ctx)
 
         // render the van/vehicles
         this.van.render(ctx);
+
+        this.things.forEach(t => {
+            t.render(ctx);
+        });
 
         // render the grass/plants
         this.renderGrass(ctx, 15, 768 - 122, this.goffset);
@@ -1947,9 +2195,12 @@ class PlayState extends State {
     update() {
         this.checkGamePads();
         this.giant.update(this.global);
-        this.beer.update();
         this.van.update();
         this.house.update();
+        this.things.forEach(t => {
+            t.update();
+        });
+
         if(this.van.collideWith(this.global.collide)) {
             this.stopped = true;
         } else {
@@ -1969,9 +2220,13 @@ class PlayState extends State {
                     this.trees[i].x += randomint(2000, 4000) + randomint(-40, 40);
                 }
             }
-            if(!this.beer.grabbed) {
-                this.beer.x -= 2;
-            }
+
+            this.things.forEach(t => {
+                if(!t.grabbed) {
+                    t.x -= 2;
+                }
+            });
+
         }
         if(this.offset1 < -310) {
             this.offset1 = -10;
@@ -2125,30 +2380,476 @@ class PlayState extends State {
     }
 }
 
-class CalibrateState extends State {
-    constructor(c, i) {
-        super(c, i);
-    }
-    
-    init() {
+const init = callback => {
+    let video = document.getElementById('v');
 
+    const constraints = {
+        audio: false,
+        video: true
+    };
+
+    let successCallback = s => {
+        video.srcObject = s;
+        callback(s, video, null);
+    };
+
+    let errorCallback = e => {
+        alert('Unable to access webcam :( -' + e);
+        callback(null, null, e);
+    };
+    // this is deprecated
+    /*if(navigator.getUserMedia) {
+        navigator.getUserMedia(constraints, successCallback, errorCallback)
+    } else {*/
+        // The proper way to call this
+        navigator.mediaDevices.getUserMedia(constraints)
+        .then(stream => {
+            /* use the stream */
+            successCallback(stream);
+        }).catch(err => {
+            /* handle the error */
+            errorCallback(err);
+        });
+};
+
+const rgb = (r,g,b) => {
+    return `rgb(${r},${g},${b})`
+};
+
+class Blob {
+    constructor(px, py) {
+        this.minx = px;
+        this.miny = py;
+        this.maxx = px;
+        this.maxy = py;
+    }
+
+    distSq(x1, y1, x2, y2) {
+        return (x2-x1)*(x2-x1) + (y2-y1)*(y2-y1)
     }
 
     render(ctx) {
+        ctx.lineWidth = 4;
+        ctx.strokeStyle = '#fff';
+        ctx.beginPath();
+        ctx.rect((68 - this.minx) * 20 - ((this.maxx - this.minx) * 20), this.miny * 20, (this.maxx - this.minx) * 20, (this.maxy - this.miny) * 20);
+        ctx.stroke();
+    }
 
+    add(px, py) {
+        this.minx = Math.min(this.minx, px);
+        this.miny = Math.min(this.miny, py);
+        this.maxx = Math.max(this.maxx, px);
+        this.maxy = Math.max(this.maxy, py);
+    }
+
+    isNear(px, py) {
+        let c = this.center();
+        let d = this.distSq(c.cx, c.cy, px, py);
+        if(d < 50) {
+            return true
+        }
+        return false
+    }
+
+    size() {
+        return Math.abs((this.maxx - this.minx) * (this.maxy - this.miny))
+    }
+
+    center() {
+        return { cx: (this.minx + this.maxx) / 2, cy: (this.miny + this.maxy) / 2 }
+    }
+}
+
+class ColourTracker {
+    constructor() {
+        this.blobs = [ [], [] ];
+
+        this.ox = [ 0, 0];
+        this.oy = [ 0, 0];
+    }
+
+    setColours(list) {
+        this.colours = list;
+    }
+
+    clearBlobs(index) {
+        if(index !== null) {
+            this.blobs[index] = [];
+        } else {
+            this.blobs = [ [], [] ];
+        }
+    }
+
+    updateBlobs(j, px, py) {
+        let found = false;
+        for(let i = 0; i < this.blobs[j].length; i++) {
+            if(this.blobs[j][i].isNear(px,py)) {
+                this.blobs[j][i].add(px, py);
+                found = true;
+                break;
+            }
+        }
+        if(!found) {
+            this.blobs[j].push(new Blob(px,py));
+        }
+    }
+
+    initHands(g) {
+        g.lefthand.x = 0;
+        g.lefthand.y = 0;
+        g.righthand.x = 0;
+        g.righthand.y = 0;
+    }
+
+    update(giant) {
+        if(giant) {
+
+            for(let i = 0; i < this.blobs.length; i++ ) {
+                let index = this.findBiggest(i);
+                if(index !== null) {
+                    let c = this.blobs[i][index].center();
+                    
+                    let dx = (this.ox[i] - c.cx) * 20;
+                    let dy = (this.oy[i] - c.cy) * -1 * 20;
+                    if(dx == 0) dx = null;
+                    if(dy == 0) dy = null;
+                    if( i < 1 ) {
+                        giant.moveLeft(dx, dy); 
+                    } else {
+                        giant.moveRight(dx, dy);
+                    }
+                    this.ox[i] = c.cx;
+                    this.oy[i] = c.cy;
+                }
+            }
+        }
+    }
+
+    findBiggest(j) {
+        let maxs = 1;
+        let index = null;
+        let count = 0;
+        this.blobs[j].forEach(b => {
+            if(b.size() > maxs) {
+                maxs = b.size();
+                index = count;
+            }
+            count++;
+        });
+        return index;
+    }
+
+    render(c) {
+        for(let i = 0; i < this.blobs.length; i++ ) {
+            let index = this.findBiggest(i);
+            if(index !== null) {
+                this.blobs[i][index].render(c);
+            }
+        }
+    }
+}
+
+const MODE = {
+    CONTROL: 0,
+    SHOWCAM: 1,
+    PICK1: 2,
+    PICK2: 3,
+    TEST: 4
+};
+
+class CalibrateState extends State {
+    constructor(c, i) {
+        super(c, i);
+        
+        this.pickedColour = [];
+
+        this.lines = [
+            'Controls',
+            'You have 3 options to control Hans the Giant\'s fists:',
+            'Gamepad with dual analog sticks',
+            'Arrow keys + Mouse',
+            'Webcam! - Use 2 bright differently coloured objects to control the fists',
+            'You need 2 bright differently coloured objects for the next part.',
+            'e.g. plastic cups, fat highlighter pens, big pieces of lego, coloured paper.',
+            'A bright red/pink and a yellow/white object are best.',
+            'Green/blue objects probably won\'t work.',
+            'If your room is too dark this may not work.',
+            'LEFT HAND - Hold up your 1st object and click on its brightest spot.',
+            'The object should (mostly) light up green. This may take a few clicks.',
+            'RIGHT HAND - Hold up your 2nd object and click on its brightest spot.',
+            'The object should (mostly) light up green. This may take a few clicks.',
+            'TIME TO TEST!',
+            'Move your objects in front of the camera and check that both fists move correctly.',
+            'If you are happy with calibration, click PLAY --->'
+        ];
+    }
+    
+    init() {
+        this.button = [];
+        this.button[0] = new Button(0, 0, 1, 1, '', 'black', 'red', 'white', 24, 10);
+        this.button[1] = new Button(0, 0, 1, 1, 'Back', 'black', 'red', 'white', 24, 10);
+
+        this.video = null;
+        this.stream = null;
+        this.camready = false;
+
+        this.tracker = new ColourTracker();
+
+        this.startMode();
+    }
+
+    drawDialog(c, index, max, x, y, inc, s) {
+        for(let i = index; i < max; i++) {
+            text(c, this.lines[i], x, y, '#fff', s ? s : 24);
+            y += inc;
+        }
+    }
+
+    render(ctx) {
+        this.ctx = ctx;
+        switch(this.state) {
+            case MODE.CONTROL:
+                fsrect(ctx, '#5f1e6f');
+                this.drawDialog(ctx, 0, 5, 350, 100, 80);
+                this.button.forEach(b => {
+                    b.render(ctx);
+                });
+            break
+            case MODE.SHOWCAM:
+                if(this.camready) {
+                    this.renderVidStream(ctx, null);
+                    
+                    this.button.forEach(b => {
+                        b.render(ctx);
+                    });
+                    ctx.fillStyle = '#000';
+                    ctx.fillRect(300, 600, 800, 200);
+                    this.drawDialog(ctx, 5, 10, 350, 620, 25, 18);
+                } else {
+                    fsrect(ctx, '#5f1e6f');
+                    text(ctx, 'One moment. Browser may request permission to access webcam.', 350, 300, '#fff', 24);
+                }
+            break
+            case MODE.PICK1:
+                if(this.camready) {
+                    this.renderVidStream(ctx, 0);
+                    
+                    //this.tracker.render(ctx)
+
+                    this.button.forEach(b => {
+                        b.render(ctx);
+                    });
+                    ctx.fillStyle = '#000';
+                    ctx.fillRect(300, 680, 800, 150);
+                    this.drawDialog(ctx, 10, 12, 350, 700, 25, 18);
+                }
+            break
+            case MODE.PICK2:
+                if(this.camready) {
+                    this.renderVidStream(ctx, 1);
+                    
+                    //this.tracker.render(ctx)
+
+                    this.button.forEach(b => {
+                        b.render(ctx);
+                    });
+                    ctx.fillStyle = '#000';
+                    ctx.fillRect(300, 680, 800, 150);
+                    this.drawDialog(ctx, 12, 14, 350, 700, 25, 18);
+                }
+            break
+            case MODE.TEST:
+                if(this.camready) {
+                    this.renderVidStream(ctx, null);
+
+                    this.tracker.render(ctx);
+
+                    this.giant.render(ctx);
+
+                    this.button.forEach(b => {
+                        b.render(ctx);
+                    });
+                    ctx.fillStyle = '#000';
+                    ctx.fillRect(300, 650, 800, 150);
+                    this.drawDialog(ctx, 14, 17, 350, 680, 25, 18);
+                }
+        }
+    }
+
+    distSq(x1, y1, z1, x2, y2, z2) {
+        return (x2-x1)*(x2-x1) + (y2-y1)*(y2-y1) + (z2-z1)*(z2-z1)
+    }
+
+    renderVidStream(c, index) {
+        this.tracker.clearBlobs(index);
+
+        c.drawImage(this.video, 0, 0, this.video.width, this.video.height);
+        let data = c.getImageData(0, 0, this.video.width, this.video.height).data;
+            
+        const w = this.video.width;
+        const h = this.video.height;
+        const step = 20;
+        
+        const threshold = 40.0;
+
+        // loop through rows and columns
+
+        for (let y = 0; y < h; y++) {
+            for (let x = 0; x < w; x++) {
+                // the data array is a continuous array of red, blue, green 
+                // and alpha values, so each pixel takes up four values 
+                // in the array
+                let pos = (x + y * w) * 4;
+                
+                // get red, blue and green pixel value
+                let r = data[pos];
+                let g = data[pos+1];
+                let b = data[pos+2];
+
+                c.fillStyle = rgb(r, g, b);
+
+                if(this.state === MODE.PICK1 || this.state == MODE.PICK2) {
+                    if(index !== null) {
+                        // render the picked colour blocks
+                        let r2 = this.pickedColour[index][0];
+                        let g2 = this.pickedColour[index][1];
+                        let b2 = this.pickedColour[index][2];
+                    
+                        let d = this.distSq(r, g, b, r2, g2, b2);
+                        if (d < threshold * threshold) {
+                            c.globalAlpha = 0.3;
+                            c.fillStyle = 'green';
+                        }
+                    }
+                }
+                if(this.state === MODE.TEST) {
+                    for(let i = 0; i < 2; i++) {
+                        let r2 = this.pickedColour[i][0];
+                        let g2 = this.pickedColour[i][1];
+                        let b2 = this.pickedColour[i][2];
+                        
+                        let d = this.distSq(r, g, b, r2, g2, b2);
+                        if (d < threshold * threshold) {
+                            this.tracker.updateBlobs(i, x, y);
+                        }
+                    }
+                }
+                // draw the pixels as blocks of colours
+                // flipped on the x-axis
+                c.fillRect(((w - 1) - x) * step, y * step, step, step);
+                c.globalAlpha = 1.0;
+            }
+        }
     }
 
     update() {
-        
+        if(this.state === MODE.TEST) {
+            this.giant.update(this.global);
+            this.tracker.update(this.giant);
+        }
     }
 
     finish() {
         
     }
 
-    handleMove(mx, my) {}
+    setButton(i, x, y, text$$1, action, w, h) {
+        this.button[i].x = x;
+        this.button[i].y = y;
+        this.button[i].text = text$$1;
+        this.button[i].action = action;
+        if(w) this.button[i].width = w;
+        if(h) this.button[i].height = h;
+    }
+    
+    startMode() {
+        let self = this;
+        this.setButton(0, 1366/2 - 200,500, 'Calibrate webcam controls', () => { self.camMode(); }, 350, 40);
+        this.setButton(1, 1366/2 - 200,560, 'Back', () => { self.next('titl'); }, 350, 40);
+        this.state = MODE.CONTROL;
+    }
 
-    handleClick(mx, my) {}
+    camMode() {
+        let self = this;
+        this.setButton(0, 0, 650, 'Back', () => { self.startMode(); }, 120);
+        this.setButton(1, 1200, 650, 'Next', () => { self.pickMode1(); });
+
+        this.state = MODE.SHOWCAM;
+        
+        init((s, v, e) => {
+            if(!e) {
+                self.video = v;
+                self.stream = s;
+                self.camready = true;
+            }
+        });
+    }
+
+    pickMode1() {
+        let self = this;
+        this.setButton(0, 0, 650, 'Back', () => { self.camMode(); }, 120);
+        this.setButton(1, 1200, 650, 'Next', () => { self.pickMode2(); });
+
+        if( !this.pickedColour[0] ) {
+            this.pickedColour[0] = [255, 0 ,0];
+        }
+
+        this.state = MODE.PICK1;
+    }
+    pickMode2() {
+        let self = this;
+        this.setButton(0, 0, 650, 'Back', () => { self.pickMode1(); }, 120);
+        this.setButton(1, 1200, 650, 'Next', () => { self.testMode(); });
+
+        if( !this.pickedColour[1] ) {
+            this.pickedColour[1] = [255, 0 ,0];
+        }
+
+        this.state = MODE.PICK2;
+    }
+
+    testMode() {
+        let self = this;
+        this.setButton(0, 0, 650, 'Back', () => { self.pickMode2(); }, 120);
+        this.setButton(1, 1200, 650, 'PLAY!', () => { self.next('play'); });
+        this.state = MODE.TEST;
+
+        if(!this.giant) {
+            this.global = {
+                grabthese: []
+            };
+            this.giant = new Giant(428, 345, this.imgs);
+        }
+
+        this.tracker.initHands(this.giant);
+
+        this.tracker.setColours(this.pickedColour);
+    }
+
+    handleMove(mx, my, c) {
+        this.button.forEach(b => {
+            if(b.hover(mx, my, c)) return
+        });
+    }
+
+    getPickedColour(mx, my) {
+        let data = this.ctx.getImageData(mx, my, 1, 1).data;
+        return [data[0], data[1], data[2]]
+    }
+
+    handleClick(mx, my) {
+        this.button.forEach(b => {
+            b.click(mx, my);
+        });
+
+        if(this.state === MODE.PICK1) {
+            this.pickedColour[0] = this.getPickedColour(mx, my);
+        }
+        if(this.state === MODE.PICK2) {
+            this.pickedColour[1] = this.getPickedColour(mx, my);
+        }
+    }
 }
 
 class StoryState extends State {
