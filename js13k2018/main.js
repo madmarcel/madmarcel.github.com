@@ -142,13 +142,13 @@ let randomint = (min, max) => {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 };
 
-let colours = [];
-
-let ctx = null;
-
 const rad = (d) => {
     return (Math.PI/180)*d
 };
+
+let colours = [];
+
+let ctx = null;
 
 const r = {
     // colour
@@ -444,10 +444,29 @@ class LoadingState extends State {
         this.imgs = [];
 
         this.colourSwapSprites = [
-            // number, flip, colours to swap [ index, hex ]
-            // van - was meant to be the mystery van, but colours didn't work with bg
-            [ 19, 27, '2c84a6', 28, '8ce724', 14, 'ee360d']
+            // number, colours to swap [ index, hex ]
+            // van
+            // 27 - stripe
+            // 28 - van itself
+            // 14 - panel
+            [ 19, 27, '2c84a6', 28, '8ce724', 14, 'ee360d'], // 24 mystery van
+            [ 19, 27, 'fff', 28, 'fff', 14, 'fff'],          // 25 white van
+            [ 19, 27, '000', 28, 'ccc', 14, 'fff'],          // 26 grey van
+            [ 19, 27, 'fff', 28, 'f00', 14, 'fff'],          // 27 red van
             // tractor
+            // 12 - tyre hubs
+            // 14 - tractor itself
+            // 2 - roof
+            [ 23, 27, 'f00' ], // 28 red
+            [ 23, 27, '648e06', 12, '648e06' ], // 29 - farm green
+            // house
+            // 19 - door
+            // 2 - house
+            // roof - 17
+            // roof highlight - 3
+            // porch - 1
+            [ 22, 19, '0055d4', 2, 'ffd5d5', 17, '0055d4', 3, 'acf', 1, 'fff' ], // 30 pink house
+            [ 22, 19, '080', 2, 'deaa87', 17, '080', 3, 'afa', 1, 'fff' ] // 31 brown house
         ];
     }
 
@@ -478,7 +497,7 @@ class LoadingState extends State {
             let r = d[index + 2];
             this.imgs.push(this.createSprite(r, width, height));
 
-            // reset
+            // reset the pallette to original
             setPalette(palette);
         });
 
@@ -1756,6 +1775,23 @@ class Van {
         this.hby = this.y;
         this.hbw = 30;
         this.hbh = this.c[13].height;
+
+        this.showclock = false;
+        this.cend = 0;
+        this.ccols = [ '#0f0', '#ff0','#ffa500', '#f00'];
+        this.cindex = 0;
+        this.cinc = 1;
+        this.tinc = Math.floor(15000 / 360);
+        this.cts = timestamp();
+    }
+
+    drawPieSlice(ctx,centerX, centerY, radius, startAngle, endAngle, color ){
+        ctx.fillStyle = color;
+        ctx.beginPath();
+        ctx.moveTo(centerX,centerY);
+        ctx.arc(centerX, centerY, radius, startAngle, endAngle);
+        ctx.closePath();
+        ctx.fill();
     }
 
     render(c) {
@@ -1768,10 +1804,29 @@ class Van {
         drawImage(c, this.c[20], this.x + 23, this.y + 78, 44, 44, this.rot);
 
         // render the hitbox
-        /*c.strokeStyle = 'red'
+        /*c.strokeStyle = this.ccol
         c.beginPath()
         c.rect(this.hbx, this.hby, this.hbw, this.hbh)
         c.stroke()*/
+
+        if(this.showclock) {
+            c.drawImage(this.c[0], this.x + 50, this.y - 100);
+            this.drawPieSlice(c, this.x + 91, this.y - 100 + 41, 37, rad(- 90), rad(this.cend - 90), this.ccols[this.cindex]);
+        }
+        
+    }
+
+    startClock() {
+        if(!this.showclock) {
+            this.cend = 0;
+            this.showclock = true;
+            this.cindex = 0;
+            this.cts = timestamp() + this.tinc;
+        }
+    }
+
+    stopClock() {
+        this.showclock = false;
     }
 
     update() {
@@ -1796,6 +1851,42 @@ class Van {
                 this.rot = 0;
             }
         }
+
+        if(!this.ismoving) {
+            // increment the clock
+            if(timestamp() > this.cts) {
+                this.cend += this.cinc;
+                this.cts = timestamp() + this.tinc;
+                
+                if(this.cend > 180 && this.cend <= 270) {
+                    if(this.cindex < 1) {
+                        this.hasbeeped = false;
+                        this.beep();
+                    }
+                    this.cindex = 1;
+                }
+
+                if(this.cend > 270 && this.cend <= 315) {
+                    if(this.cindex < 2) {
+                        this.hasbeeped = false;
+                        this.beep();
+                    }
+                    this.cindex = 2;
+                }
+                if(this.cend > 315) {
+                    if(this.cindex < 3) {
+                        this.hasbeeped = false;
+                        this.beep();
+                    }
+                    this.cindex = 3;
+                }
+                
+                if(this.cend <= 180) {
+                    this.cindex = 0;
+                }
+
+            }
+        }
     }
 
     collideWith(list) {
@@ -1817,12 +1908,14 @@ class Van {
                 ) > 0.0) {
                     this.beep();
                     this.ismoving = false;
+                    this.startClock();
                     return true
                 }
             }
         }
         this.hasbeeped = false;
         this.ismoving = true;
+        this.stopClock();
         return false
     }
 
@@ -1850,19 +1943,29 @@ class House {
         this.miny = this.y + 270;
         this.grabbed = false;
         this.bashed = false;
+
+        this.alts = [ 22, 30, 31 ];
+        this.i = 22;
+        this.flip = false;
+        this.changeCostume();
+    }
+
+    changeCostume() {
+        if(this.alts.length > 0) {
+            this.i = this.alts[randomint(0, this.alts.length - 1)];
+        }
     }
 
     render(c) {
         // draw the house
-        c.drawImage(this.c[22], this.x, this.y);
+        drawImage(c, this.c[this.i], this.x, this.y, this.hbw, this.hbh, 0, this.flip);
 
         // render the hitbox
-        /*
-        c.strokeStyle = 'red'
+        
+        /* c.strokeStyle = 'red'
         c.beginPath()
         c.rect(this.hbx, this.hby, this.hbw, this.hbh)
-        c.stroke()
-        */
+        c.stroke() */
     }
 
     update() {
@@ -1873,6 +1976,8 @@ class House {
             this.x = 1500 + randomint(0, 1000);
             this.y = this.oldy;
             this.bashed = false;
+            this.changeCostume();
+            this.flip = !this.flip;
         }
     }
 
@@ -1914,10 +2019,19 @@ class Thing extends Grabbable {
         this.hby = this.y;
         this.hbw = this.c[index].width;
         this.hbh = this.c[index].height;
+
+        // aternative colour versions
+        this.alts = [];
+    }
+
+    changeCostume() {
+        if(this.alts.length > 0) {
+            this.i = this.alts[randomint(0, this.alts.length - 1)];
+        }
     }
 
     drawWheels(c) {
-        if(this.i == 24) {
+        if(this.i >= 24 && this.i <= 27) {
             let o = 0;
             if(this.flip) {
                 o = 22;
@@ -1970,6 +2084,7 @@ class Thing extends Grabbable {
             this.energy = 100;
             this.ts = timestamp();
             this.flip = !this.flip;
+            this.changeCostume();
         }
 
         super.update();
@@ -2050,6 +2165,8 @@ class PlayState extends State {
             bashthese: [],
             collide: []
         };
+
+        this.speed = 2;
     }
 
     init() {
@@ -2065,6 +2182,12 @@ class PlayState extends State {
 
         this.thing1 = new Thing(2200, 553, this.imgs, 24, this.imgs[24].width, this.imgs[24].height, true);
         this.thing2 = new Thing(1500, 530, this.imgs, 23, this.imgs[23].width, this.imgs[23].height, false);
+
+        this.thing1.alts = [ 24, 25, 26, 27 ]; // van
+        this.thing2.alts = [ 23, 28, 29 ]; // tractor
+        this.thing1.changeCostume();
+        this.thing2.changeCostume();
+        console.log('l', this.imgs.length);
 
         this.things.push(this.thing1);
         this.things.push(this.thing2);
@@ -2114,6 +2237,7 @@ class PlayState extends State {
 
         this.shaking = false;
         this.shake_timestamp = 0;
+        this.gcount = 0;
     }
 
     render(ctx) {
@@ -2210,12 +2334,12 @@ class PlayState extends State {
 
         // bg offset
         if(!this.stopped) {
-            this.offset1 -= 0.25;
-            this.offset2 -= 0.5;
-            this.goffset -= 2;
-            this.house.x -= 2;
+            this.offset1 -= this.speed / 8; // 0.25
+            this.offset2 -= this.speed / 4; //0.5
+            this.goffset -= this.speed;
+            this.house.x -= this.speed;
             for(let i = 0; i < this.trees.length; i++) {
-                this.trees[i].x -= 2;
+                this.trees[i].x -= this.speed;
                 if(this.trees[i].x < -500) {
                     this.trees[i].x += randomint(2000, 4000) + randomint(-40, 40);
                 }
@@ -2223,10 +2347,9 @@ class PlayState extends State {
 
             this.things.forEach(t => {
                 if(!t.grabbed) {
-                    t.x -= 2;
+                    t.x -= this.speed;
                 }
             });
-
         }
         if(this.offset1 < -310) {
             this.offset1 = -10;
@@ -2236,6 +2359,11 @@ class PlayState extends State {
         }
         if(this.goffset < -110) {
             this.goffset = -10;
+            if(this.gcount > 40) {
+                this.speed++;
+                this.gcount = 0;
+            }
+            this.gcount++;
         }
         // ground offset
         for(let i = 0; i < this.clouds.length; i++) {
