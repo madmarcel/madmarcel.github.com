@@ -9,20 +9,18 @@ window.addEventListener('load', () => {
     let witch = new Witch(bdialog)
     witch.init()
 
-    bdialog.witch = witch
-
     // -----------------
     // info spots
     // -----------------
-    let infospot, firstspot
+    let infospot, firstspot;
 
     // witch talk spot
     /*infospot = new PANOLENS.Infospot( 350, 'images/message-bubble.png' );
     infospot.position.set( 3000, 60, -200 );*/
 
     // throwaway infospot
-    firstspot = new PANOLENS.Infospot( 350, 'images/message-bubble.png' )
-    firstspot.position.set( 4995.49, 12.61, 76.51 )
+    firstspot = new PANOLENS.Infospot( 350, 'images/message-bubble.png' );
+    firstspot.position.set( 4995.49, 12.61, 76.51 );
 
     /*// witches spot clicked
     infospot.addEventListener('click', () => {
@@ -50,14 +48,14 @@ window.addEventListener('load', () => {
     // -----------------
     let panorama, viewer;
 
-    panorama = new PANOLENS.ImagePanorama( 'images/equirectangular.png' )
+    panorama = new PANOLENS.ImagePanorama( 'images/equirectangular.png' );
 
-    panorama.addEventListener('load', onEnter)
+    panorama.addEventListener('load', onEnter);
     //panorama.add(infospot);
-    panorama.add(firstspot)
-    panorama.add(witch.poster)
-    panorama.add(bdialog.poster)
-    panorama.add(bdialog.paragraph)
+    panorama.add(firstspot);
+    panorama.add(witch.poster);
+    panorama.add(bdialog.poster);
+    panorama.add(bdialog.paragraph);
     bdialog.answers.forEach(a => {
         panorama.add(a)
     })
