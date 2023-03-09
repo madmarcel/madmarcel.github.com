@@ -1,0 +1,231 @@
+body {
+  background-color: #ccc;
+}
+
+.wrapper {
+  display: flex;
+  flex-direction: row;
+}
+
+.cwrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+#can {
+  margin: 20px;
+  border: 2px solid black;
+  background-color: white;
+  border-radius: 10px;
+}
+
+.colours {
+  display: inline-flex;
+  flex-direction: column;
+}
+
+.colourblock {
+  display: block;
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  border: 2px solid #ccc;
+  cursor: pointer;
+}
+
+#green {
+  background:green;
+}
+
+#blue {
+  background: blue;
+}
+
+#red {
+  background: red;
+}
+
+#yellow {
+  background-color: yellow;
+}
+
+#orange {
+  background-color: orange;
+}
+
+#black {
+  background: black;
+}
+
+#cyan {
+  background: cyan;
+}
+
+#darkslategray {
+  background: darkslategray;
+}
+
+#erase {
+  background: white;
+  border: 2px solid black;
+}
+
+.pens {
+  margin-left: 1em;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.dw {
+  display: flex;
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  border: 2px solid #ccc;
+  background-color: white;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.dot {
+  display: block;
+  border-radius: 100%;
+  background-color: black;
+}
+
+.two {
+  width: 2px;
+  height: 2px;
+}
+
+.four {
+  width: 4px;
+  height: 4px;
+}
+
+.six {
+  width: 8px;
+  height: 8px;
+}
+
+.eight {
+  width: 15px;
+  height: 15px;
+}
+
+.sixteen {
+  width: 20px;
+  height: 20px;
+}
+
+.thirtytwo {
+  width: 30px;
+  height: 30px;
+}
+
+.active {
+  border: 2px solid magenta !important;
+}
+
+#clr {
+  margin-left: 20px;
+}
+
+#pointertype {
+  margin-left: 30px;
+  margin-top: -3em;
+  margin-bottom: 2em;
+}
+
+#keys {
+  position: relative;
+  margin-top: -3.5em;
+  margin-bottom: 2em;
+}
+
+#pressure {
+  display: block;
+  border: 1px solid gray;
+  border-radius: 20px;
+  height: 100px;
+  width: 30px;
+  background-color: white;
+  margin-top: 6em;
+  position: relative;
+}
+
+#bar {
+  display: block;
+  background-color: black;
+  height: 0px;
+  width: 100%;
+  border-radius: 20px;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+}
+
+#buttons {
+  margin-left: 580px;
+  margin-top: -3em;
+  margin-bottom: 2em;
+}
+
+/* CSS */
+.button-9 {
+  appearance: button;
+  backface-visibility: hidden;
+  background-color: black;
+  border-radius: 6px;
+  border-width: 0;
+  box-shadow: rgba(50, 50, 93, .1) 0 0 0 1px inset,rgba(50, 50, 93, .1) 0 2px 5px 0,rgba(0, 0, 0, .07) 0 1px 1px 0;
+  box-sizing: border-box;
+  color: #fff;
+  cursor: pointer;
+  font-family: -apple-system,system-ui,"Segoe UI",Roboto,"Helvetica Neue",Ubuntu,sans-serif;
+  font-size: 100%;
+  height: 44px;
+  line-height: 1.15;
+  margin: 12px 0 0;
+  outline: none;
+  overflow: hidden;
+  padding: 0 25px;
+  position: relative;
+  text-align: center;
+  text-transform: none;
+  transform: translateZ(0);
+  transition: all .2s,box-shadow .08s ease-in;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+}
+
+.button-9:hover {
+  background-color: red;
+}
+
+.button-9:disabled {
+  cursor: default;
+}
+
+.button-9:focus {
+  box-shadow: rgba(50, 50, 93, .1) 0 0 0 1px inset, rgba(50, 50, 93, .2) 0 6px 15px 0, rgba(0, 0, 0, .1) 0 2px 2px 0, rgba(50, 151, 211, .3) 0 0 0 4px;
+}
+
+.k {
+  position: absolute;
+  bottom: 0;
+  list-style: none;
+  padding-left: 0;
+  right: 30px;
+  text-align: right;
+}
+
+.item {
+  font-family: cursive;
+  padding: 5px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}

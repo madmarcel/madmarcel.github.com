@@ -1,0 +1,58 @@
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script type="text/javascript" src="script.js"></script>
+    <link rel="stylesheet" href="styles.css">
+    <title>Stylus test</title>
+  </head>
+  <body onload="init()" id="body">
+    <div class="wrapper">
+      <div class="cwrapper">
+        <canvas id="can" width="600" height="600"></canvas>
+        <div id="pointertype">----</div>
+        <div id="buttons">-- --</div>
+        <div id="keys">
+          <ul class="k" id="list"></ul>
+        </div>
+      </div>
+      <div class="colours">
+        <h5>Colour</h5>
+        <div class="colourblock" id="cyan" onclick="color(this)"></div>
+        <div class="colourblock" id="green" onclick="color(this)"></div>
+        <div class="colourblock" id="blue" onclick="color(this)"></div>
+        <div class="colourblock" id="red" onclick="color(this)"></div>
+        <div class="colourblock" id="yellow" onclick="color(this)"></div>
+        <div class="colourblock" id="orange" onclick="color(this)"></div>
+        <div class="colourblock" id="darkslategray" onclick="color(this)"></div>
+        <div class="colourblock active" id="black" onclick="color(this)"></div>
+        <h5>Eraser</h5>
+        <div class="colourblock" id="erase" onclick="color(this)"></div>
+      </div>
+      <div class="pens">
+        <h5>Size</h5>
+        <div class="dw" id="30" onclick="setsize(30)">
+          <div class="dot thirtytwo"></div>
+        </div>
+        <div class="dw" id="20" onclick="setsize(20)">
+          <div class="dot sixteen"></div>
+        </div>
+        <div class="dw" id="15" onclick="setsize(15)">
+          <div class="dot eight"></div>
+        </div>
+        <div class="dw" id="8" onclick="setsize(8)">
+          <div class="dot six"></div>
+        </div>
+        <div class="dw" id="4" onclick="setsize(4)">
+          <div class="dot four"></div>
+        </div>
+        <div class="dw active" id="2" onclick="setsize(2)">
+          <div class="dot two"></div>
+        </div>
+        <div id="pressure">
+          <div id="bar"></div>
+        </div>
+      </div>
+    </div>
+    <button type="button" value="Clear" id="clr" class="button-9" onclick="erase()">Clear</button>
+  </body>
+</html>
