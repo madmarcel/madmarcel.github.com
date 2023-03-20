@@ -137,12 +137,14 @@ body {
   margin-left: 30px;
   margin-top: -3em;
   margin-bottom: 2em;
+  z-index: 10;
 }
 
 #keys {
   position: relative;
   margin-top: -3.5em;
   margin-bottom: 2em;
+  z-index: 10;
 }
 
 #pressure {
@@ -171,6 +173,7 @@ body {
   margin-left: 580px;
   margin-top: -3em;
   margin-bottom: 2em;
+  z-index: 10;
 }
 
 /* CSS */
